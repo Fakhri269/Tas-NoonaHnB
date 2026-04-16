@@ -14,10 +14,15 @@
         <div class="max-w-7xl mx-auto px-6">
             @if($cartItems->count() > 0)
             <div class="grid lg:grid-cols-3 gap-8">
-                <!-- Cart Items -->
+                <!-- Checkout Form -->
+                <form id="checkout-form" action="{{ route('checkout') }}" method="GET" class="hidden"></form>
+
                 <div class="lg:col-span-2 space-y-4">
                     @foreach($cartItems as $item)
                     <div class="card-dark p-5 flex items-center space-x-4">
+                        <label class="flex items-center cursor-pointer">
+                            <input type="checkbox" name="cart_ids[]" value="{{ $item->id }}" form="checkout-form" class="w-5 h-5 rounded border-gray-600 bg-gray-700 text-orange-500 focus:ring-orange-500 cart-item-checkbox" data-quantity="{{ $item->quantity }}" data-subtotal="{{ $item->subtotal }}" checked onchange="updateCartSum()">
+                        </label>
                         <img src="{{ $item->product->image }}" alt="{{ $item->product->name }}" class="w-24 h-24 object-cover rounded-xl flex-shrink-0">
                         <div class="flex-1 min-w-0">
                             <a href="{{ route('products.show', $item->product->slug) }}" class="text-white font-semibold hover:text-orange-400 transition-colors">{{ $item->product->name }}</a>
@@ -26,16 +31,11 @@
                         </div>
                         <!-- Qty Controls -->
                         <div class="flex items-center space-x-2">
-                            <form action="{{ route('cart.update', $item) }}" method="POST">
+                            <form action="{{ route('cart.update', $item) }}" method="POST" class="flex items-center space-x-2">
                                 @csrf @method('PATCH')
-                                <input type="hidden" name="quantity" value="{{ max(1, $item->quantity - 1) }}">
-                                <button type="submit" class="w-8 h-8 rounded-lg text-white font-bold transition-all hover:scale-110 {{ $item->quantity <= 1 ? 'opacity-40 cursor-not-allowed' : '' }}" style="background:rgba(249,115,22,0.2); border:1px solid rgba(249,115,22,0.3)" {{ $item->quantity <= 1 ? 'disabled' : '' }}>-</button>
-                            </form>
-                            <span class="w-10 text-center text-white font-bold">{{ $item->quantity }}</span>
-                            <form action="{{ route('cart.update', $item) }}" method="POST">
-                                @csrf @method('PATCH')
-                                <input type="hidden" name="quantity" value="{{ min($item->product->stock, $item->quantity + 1) }}">
-                                <button type="submit" class="w-8 h-8 rounded-lg text-white font-bold transition-all hover:scale-110 {{ $item->quantity >= $item->product->stock ? 'opacity-40 cursor-not-allowed' : '' }}" style="background:rgba(249,115,22,0.2); border:1px solid rgba(249,115,22,0.3)" {{ $item->quantity >= $item->product->stock ? 'disabled' : '' }}>+</button>
+                                <button type="button" onclick="const inpt=this.nextElementSibling; if(inpt.value>1){ inpt.stepDown(); this.form.submit(); }" class="w-8 h-8 rounded-lg text-white font-bold transition-all hover:scale-110 {{ $item->quantity <= 1 ? 'opacity-40 cursor-not-allowed' : '' }}" style="background:rgba(249,115,22,0.2); border:1px solid rgba(249,115,22,0.3)" {{ $item->quantity <= 1 ? 'disabled' : '' }}>-</button>
+                                <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" max="{{ $item->product->stock }}" class="w-14 text-center text-white font-bold bg-[#1e2d3d] border border-gray-600 rounded-lg py-1 focus:outline-none focus:border-orange-500 custom-spin-hidden" onchange="this.form.submit()">
+                                <button type="button" onclick="const inpt=this.previousElementSibling; if(inpt.value<{{ $item->product->stock }}){ inpt.stepUp(); this.form.submit(); }" class="w-8 h-8 rounded-lg text-white font-bold transition-all hover:scale-110 {{ $item->quantity >= $item->product->stock ? 'opacity-40 cursor-not-allowed' : '' }}" style="background:rgba(249,115,22,0.2); border:1px solid rgba(249,115,22,0.3)" {{ $item->quantity >= $item->product->stock ? 'disabled' : '' }}>+</button>
                             </form>
                         </div>
                         <div class="text-right flex-shrink-0">
@@ -63,40 +63,34 @@
                         <h2 class="text-white font-bold text-lg mb-5">Ringkasan Pesanan</h2>
                         <div class="space-y-3 mb-5">
                             <div class="flex justify-between text-sm">
-                                <span class="text-gray-400">Subtotal ({{ $cartItems->sum('quantity') }} item)</span>
-                                <span class="text-white font-semibold">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+                                <span class="text-gray-400">Subtotal (<span id="sum-qty">{{ $cartItems->sum('quantity') }}</span> item)</span>
+                                <span class="text-white font-semibold" id="sum-subtotal">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
                             </div>
-                            @if($discount > 0)
-                            <div class="flex justify-between text-sm">
+                            <div class="flex justify-between text-sm" id="discount-container" style="{{ $discount > 0 ? '' : 'display:none;' }}">
                                 <span class="text-gray-400">Diskon 10% (Promo)</span>
-                                <span class="text-green-400 font-semibold">- Rp {{ number_format($discount, 0, ',', '.') }}</span>
+                                <span class="text-green-400 font-semibold" id="sum-discount">- Rp {{ number_format($discount, 0, ',', '.') }}</span>
                             </div>
-                            @endif
                             <div class="flex justify-between text-sm">
                                 <span class="text-gray-400">Ongkir</span>
-                                @if($shippingCost == 0)
-                                    <span class="text-green-400 font-semibold">GRATIS</span>
+                                <span class="text-white font-semibold" id="sum-shipping">
+                                    @if($shippingCost == 0) <span class="text-green-400">GRATIS</span> @else Rp {{ number_format($shippingCost, 0, ',', '.') }} @endif
+                                </span>
+                            </div>
+                            <div id="free-shipping-msg" class="px-3 py-2 rounded-xl text-xs font-medium" style="{{ $subtotal >= 500000 ? 'background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.2); color:#86efac' : 'background:rgba(249,115,22,0.1); border:1px solid rgba(249,115,22,0.2); color:#fdba74' }}">
+                                @if($subtotal >= 500000)
+                                    🎉 Selamat! Anda mendapat gratis ongkir
                                 @else
-                                    <span class="text-white font-semibold">Rp {{ number_format($shippingCost, 0, ',', '.') }}</span>
+                                    💡 Belanja Rp <span id="sum-lacking">{{ number_format(500000 - $subtotal, 0, ',', '.') }}</span> lagi untuk gratis ongkir
                                 @endif
                             </div>
-                            @if($subtotal >= 500000)
-                            <div class="px-3 py-2 rounded-xl text-xs font-medium" style="background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.2); color:#86efac">
-                                🎉 Selamat! Anda mendapat gratis ongkir
-                            </div>
-                            @else
-                            <div class="px-3 py-2 rounded-xl text-xs font-medium" style="background:rgba(249,115,22,0.1); border:1px solid rgba(249,115,22,0.2); color:#fdba74">
-                                💡 Belanja Rp {{ number_format(500000 - $subtotal, 0, ',', '.') }} lagi untuk gratis ongkir
-                            </div>
-                            @endif
                         </div>
                         <div class="border-t pt-4 mb-5" style="border-color:rgba(249,115,22,0.15)">
                             <div class="flex justify-between items-center">
                                 <span class="text-white font-bold">Total</span>
-                                <span class="text-2xl font-bold text-orange-400">Rp {{ number_format($total, 0, ',', '.') }}</span>
+                                <span class="text-2xl font-bold text-orange-400" id="sum-total">Rp {{ number_format($total, 0, ',', '.') }}</span>
                             </div>
                         </div>
-                        <a href="{{ route('checkout') }}" class="btn-orange block w-full text-center py-4 rounded-xl font-bold text-lg">Checkout Sekarang</a>
+                        <button type="submit" form="checkout-form" id="checkout-btn" class="btn-orange block w-full text-center py-4 rounded-xl font-bold text-lg">Checkout (<span id="btn-qty">{{ $cartItems->sum('quantity') }}</span>)</button>
                         <a href="{{ route('products.index') }}" class="block w-full text-center text-gray-400 hover:text-orange-400 mt-4 text-sm font-medium transition-colors">← Lanjut Belanja</a>
                     </div>
                 </div>
@@ -113,4 +107,100 @@
             @endif
         </div>
     </section>
+
+    <script>
+        function updateCartSum() {
+            const checkboxes = document.querySelectorAll('.cart-item-checkbox:checked');
+            let subtotal = 0;
+            let qty = 0;
+
+            checkboxes.forEach(cb => {
+                subtotal += parseFloat(cb.dataset.subtotal);
+                qty += parseInt(cb.dataset.quantity);
+            });
+
+            let discount = 0;
+            if (subtotal >= 200000) discount = subtotal * 0.10;
+
+            let shipping = 0;
+            if (subtotal > 0 && subtotal < 500000) shipping = 50000;
+
+            let total = subtotal - discount + shipping;
+
+            const formatRp = (num) => 'Rp ' + Math.round(num).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+            document.getElementById('sum-qty').innerText = qty;
+            document.getElementById('btn-qty').innerText = qty;
+            document.getElementById('sum-subtotal').innerText = formatRp(subtotal);
+            
+            const discCont = document.getElementById('discount-container');
+            if (discount > 0) {
+                discCont.style.display = 'flex';
+                document.getElementById('sum-discount').innerText = '- ' + formatRp(discount);
+            } else {
+                discCont.style.display = 'none';
+            }
+
+            const shipEl = document.getElementById('sum-shipping');
+            if (subtotal === 0) {
+                shipEl.innerHTML = formatRp(0);
+            } else if (shipping === 0) {
+                shipEl.innerHTML = '<span class="text-green-400">GRATIS</span>';
+            } else {
+                shipEl.innerText = formatRp(shipping);
+            }
+
+            const freeMsg = document.getElementById('free-shipping-msg');
+            if (subtotal >= 500000 || subtotal === 0) {
+                freeMsg.style.background = 'rgba(34,197,94,0.1)';
+                freeMsg.style.borderColor = 'rgba(34,197,94,0.2)';
+                freeMsg.style.color = '#86efac';
+                freeMsg.innerHTML = subtotal === 0 ? 'Pilih produk untuk dicheckout' : '🎉 Selamat! Anda mendapat gratis ongkir';
+            } else {
+                freeMsg.style.background = 'rgba(249,115,22,0.1)';
+                freeMsg.style.borderColor = 'rgba(249,115,22,0.2)';
+                freeMsg.style.color = '#fdba74';
+                freeMsg.innerHTML = '💡 Belanja ' + formatRp(500000 - subtotal) + ' lagi untuk gratis ongkir';
+            }
+
+            document.getElementById('sum-total').innerText = formatRp(total);
+
+            const btn = document.getElementById('checkout-btn');
+            if (qty >= 50) {
+                btn.type = 'button';
+                btn.removeAttribute('form');
+                btn.innerHTML = 'Checkout Reseller via WhatsApp (' + qty + ')';
+                btn.className = 'w-full text-center py-4 rounded-xl font-bold text-lg text-white shadow-lg transition-colors bg-[#25D366] hover:bg-[#128C7E]';
+                const msg = encodeURIComponent(`Halo Admin, saya tertarik menjadi Reseller TasBagus. Saya ingin checkout keranjang saya dengan total ${qty} buah tas, subtotal ${formatRp(total)}.`);
+                btn.onclick = () => {
+                    window.open(`https://wa.me/6289616392586?text=${msg}`, '_blank');
+                };
+                btn.disabled = false;
+                btn.style.opacity = '1';
+
+                if(!window.hasAlertedCartReseller) {
+                    window.hasAlertedCartReseller = true;
+                    setTimeout(() => {
+                        if(confirm("Pesanan Grosir/Reseller (50++ pcs) di Keranjang Anda akan otomatis ditangani melalui WhatsApp Admin!\n\nKlik 'OK' untuk langsung memulai checkout via WhatsApp sekarang.")) {
+                            window.open(`https://wa.me/6289616392586?text=${msg}`, '_blank');
+                        }
+                    }, 50);
+                }
+            } else {
+                btn.type = 'submit';
+                btn.setAttribute('form', 'checkout-form');
+                btn.innerHTML = 'Checkout (<span id="btn-qty">' + qty + '</span>)';
+                btn.className = 'btn-orange block w-full text-center py-4 rounded-xl font-bold text-lg';
+                btn.onclick = null;
+                btn.disabled = (qty === 0);
+                btn.style.opacity = (qty === 0) ? '0.5' : '1';
+                window.hasAlertedCartReseller = false;
+            }
+        }
+    </script>
+    <style>
+        .custom-spin-hidden::-webkit-outer-spin-button,
+        .custom-spin-hidden::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .custom-spin-hidden[type=number] { -moz-appearance: textfield; }
+    </style>
 </x-main-layout>

@@ -93,7 +93,7 @@
 <body>
 
 <!-- ===== NAVBAR ===== -->
-<nav class="navbar fixed w-full top-0 z-50">
+<nav x-data="{ mobileMenuOpen: false }" class="navbar fixed w-full top-0 z-50">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <!-- Logo -->
         <a href="{{ route('home') }}" class="flex items-center space-x-2 group">
@@ -181,9 +181,38 @@
                     </div>
                 </div>
             @else
-                <a href="{{ route('login') }}" class="text-gray-400 hover:text-white text-sm font-medium transition-colors">Masuk</a>
-                <a href="{{ route('register') }}" class="btn-orange px-5 py-2 rounded-full text-sm font-semibold">Daftar</a>
+                <a href="{{ route('login') }}" class="text-gray-400 hover:text-white text-sm font-medium transition-colors hidden md:inline-block">Masuk</a>
+                <a href="{{ route('register') }}" class="btn-orange px-5 py-2 rounded-full text-sm font-semibold hidden md:inline-block">Daftar</a>
             @endauth
+
+            <!-- Hamburger Button -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-gray-300 hover:text-white p-2 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div x-show="mobileMenuOpen" 
+         x-transition:enter="transition ease-out duration-200"
+         x-transition:enter-start="opacity-0 -translate-y-2"
+         x-transition:enter-end="opacity-100 translate-y-0"
+         x-transition:leave="transition ease-in duration-150"
+         x-transition:leave-start="opacity-100 translate-y-0"
+         x-transition:leave-end="opacity-0 -translate-y-2"
+         class="md:hidden bg-gray-900 border-t border-gray-800 absolute w-full" style="display: none;">
+        <div class="px-6 py-4 flex flex-col space-y-4">
+            <a href="{{ route('home') }}" class="text-gray-400 hover:text-white text-sm font-medium">Beranda</a>
+            <a href="{{ route('products.index') }}" class="text-gray-400 hover:text-white text-sm font-medium">Produk</a>
+            <a href="{{ route('products.featured') }}" class="text-gray-400 hover:text-white text-sm font-medium">Unggulan</a>
+            <a href="{{ route('home') }}#about" class="text-gray-400 hover:text-white text-sm font-medium">Tentang</a>
+            <a href="{{ route('home') }}#contact" class="text-gray-400 hover:text-white text-sm font-medium">Kontak</a>
+            @guest
+            <div class="border-t border-gray-800 pt-4 flex flex-col space-y-3">
+                <a href="{{ route('login') }}" class="text-gray-400 hover:text-white text-sm font-medium">Masuk</a>
+                <a href="{{ route('register') }}" class="text-orange-400 font-semibold text-sm">Daftar</a>
+            </div>
+            @endguest
         </div>
     </div>
 </nav>
@@ -206,7 +235,7 @@
             <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
             </svg>
-            <span class="text-sm font-medium">{{ session('error') }}</span>
+            <span class="text-sm font-medium">{!! session('error') !!}</span>
         </div>
     </div>
     @endif

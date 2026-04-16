@@ -110,11 +110,34 @@
                     </svg>
                     <span id="cart-count" class="absolute -top-1 -right-1 w-5 h-5 btn-orange text-white text-xs rounded-full flex items-center justify-center">0</span>
                 </a>
-                <a href="{{ url('/dashboard') }}" class="btn-orange px-5 py-2 rounded-full text-sm font-semibold">Dashboard</a>
+                <a href="{{ url('/dashboard') }}" class="btn-orange px-5 py-2 rounded-full text-sm font-semibold hidden md:inline-block">Dashboard</a>
             @else
-                <a href="{{ route('login') }}" class="text-gray-400 hover:text-white text-sm font-medium transition-colors">Masuk</a>
-                <a href="{{ route('register') }}" class="btn-orange px-5 py-2 rounded-full text-sm font-semibold">Daftar</a>
+                <a href="{{ route('login') }}" class="text-gray-400 hover:text-white text-sm font-medium transition-colors hidden md:inline-block">Masuk</a>
+                <a href="{{ route('register') }}" class="btn-orange px-5 py-2 rounded-full text-sm font-semibold hidden md:inline-block">Daftar</a>
             @endauth
+            
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-white p-2">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
+        </div>
+    </div>
+    
+    <!-- Mobile Menu Content -->
+    <div id="mobile-menu" class="hidden md:hidden bg-gray-900 border-t border-gray-800">
+        <div class="px-6 py-4 flex flex-col space-y-4">
+            <a href="#home" class="text-gray-400 hover:text-white text-sm font-medium mobile-link">Beranda</a>
+            <a href="#products" class="text-gray-400 hover:text-white text-sm font-medium mobile-link">Produk</a>
+            <a href="#about" class="text-gray-400 hover:text-white text-sm font-medium mobile-link">Tentang</a>
+            <a href="#contact" class="text-gray-400 hover:text-white text-sm font-medium mobile-link">Kontak</a>
+            <div class="border-t border-gray-800 pt-4 flex flex-col space-y-3">
+                @auth
+                    <a href="{{ url('/dashboard') }}" class="text-orange-400 font-semibold mobile-link">Dashboard</a>
+                @else
+                    <a href="{{ route('login') }}" class="text-gray-400 hover:text-white mobile-link">Masuk</a>
+                    <a href="{{ route('register') }}" class="text-orange-400 font-semibold mobile-link">Daftar</a>
+                @endauth
+            </div>
         </div>
     </div>
 </nav>
@@ -129,12 +152,12 @@
                     <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
                     <span>Koleksi Terbaru 2026</span>
                 </div>
-                <h1 class="text-5xl lg:text-6xl font-bold leading-tight text-white mb-6">
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white mb-6">
                     Temukan Tas<br>
                     <span style="color:#f97316">Premium</span> Impian<br>
-                    <span class="text-gray-300 text-4xl font-light">Anda Disini</span>
+                    <span class="text-gray-300 text-3xl md:text-4xl font-light">Anda Disini</span>
                 </h1>
-                <p class="text-gray-400 text-lg leading-relaxed mb-8 max-w-lg">
+                <p class="text-gray-400 md:text-lg leading-relaxed mb-8 max-w-lg">
                     Koleksi tas berkualitas tinggi dengan desain modern dan elegan. Dari ransel hingga tas kulit premium, semua ada di TasBagus.
                 </p>
                 <div class="flex flex-wrap gap-4 mb-10">
@@ -164,8 +187,8 @@
             </div>
 
             <!-- Right - Hero Image -->
-            <div class="relative flex justify-center">
-                <div class="hero-img-wrap float w-80 lg:w-96">
+            <div class="relative flex justify-center mt-10 lg:mt-0">
+                <div class="hero-img-wrap float w-64 sm:w-80 lg:w-96">
                     <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=500&h=600&fit=crop" alt="Tas Premium" class="w-full object-cover shadow-2xl">
                 </div>
                 <!-- Floating cards -->
@@ -308,17 +331,32 @@
                     </div>
                     @auth
                         @if($product->stock > 0)
-                            <form action="{{ route('cart.add') }}" method="POST">
-                                @csrf
-                                <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="hidden" name="quantity" value="1">
-                                <button type="submit" class="btn-orange w-full py-3 rounded-xl font-semibold text-sm flex items-center justify-center space-x-2">
-                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-                                    </svg>
-                                    <span>Tambah ke Keranjang</span>
-                                </button>
-                            </form>
+                            <div class="grid grid-cols-2 gap-2 mt-2">
+                                <!-- Add to Cart -->
+                                <form action="{{ route('cart.add') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" title="Tambah ke Keranjang" class="btn-outline w-full py-3 rounded-xl font-semibold text-sm flex items-center justify-center space-x-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                        </svg>
+                                        <span class="text-xs">Keranjang</span>
+                                    </button>
+                                </form>
+                                <!-- Buy Now -->
+                                <form action="{{ route('cart.buy-now') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" title="Beli Langsung" class="btn-orange w-full py-3 rounded-xl font-semibold text-sm flex items-center justify-center space-x-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                                        </svg>
+                                        <span class="text-xs">Beli Langsung</span>
+                                    </button>
+                                </form>
+                            </div>
                         @else
                             <button disabled class="w-full py-3 rounded-xl font-semibold text-sm bg-gray-700 text-gray-500 cursor-not-allowed">Stok Habis</button>
                         @endif
@@ -345,14 +383,14 @@
         <div class="grid lg:grid-cols-2 gap-16 items-center">
             <div class="relative">
                 <div class="grid grid-cols-2 gap-4">
-                    <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?w=300&h=350&fit=crop" class="rounded-2xl w-full object-cover shadow-2xl" style="height:220px">
-                    <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300&h=250&fit=crop" class="rounded-2xl w-full object-cover shadow-2xl mt-8" style="height:220px">
-                    <img src="https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=300&h=250&fit=crop" class="rounded-2xl w-full object-cover shadow-2xl -mt-8" style="height:220px">
-                    <img src="https://images.unsplash.com/photo-1564422170194-896b89110ef8?w=300&h=350&fit=crop" class="rounded-2xl w-full object-cover shadow-2xl" style="height:220px">
+                    <img src="https://images.unsplash.com/photo-1591561954557-26941169b49e?w=300&h=350&fit=crop" class="rounded-2xl w-full object-cover shadow-2xl h-40 sm:h-52">
+                    <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300&h=250&fit=crop" class="rounded-2xl w-full object-cover shadow-2xl mt-4 sm:mt-8 h-40 sm:h-52">
+                    <img src="https://images.unsplash.com/photo-1622560480605-d83c853bc5c3?w=300&h=250&fit=crop" class="rounded-2xl w-full object-cover shadow-2xl -mt-4 sm:-mt-8 h-40 sm:h-52">
+                    <img src="https://images.unsplash.com/photo-1564422170194-896b89110ef8?w=300&h=350&fit=crop" class="rounded-2xl w-full object-cover shadow-2xl h-40 sm:h-52">
                 </div>
                 <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-                    <div class="w-20 h-20 btn-orange rounded-full flex items-center justify-center shadow-2xl">
-                        <span class="text-white font-bold text-xs text-center leading-tight">5+<br>Tahun</span>
+                    <div class="w-16 h-16 sm:w-20 sm:h-20 btn-orange rounded-full flex items-center justify-center shadow-2xl">
+                        <span class="text-white font-bold text-[10px] sm:text-xs text-center leading-tight">5+<br>Tahun</span>
                     </div>
                 </div>
             </div>
@@ -423,7 +461,6 @@
                     @foreach([
                         ['M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z','Jl. Raya Tas No. 123, Jakarta Selatan 12345','Alamat'],
                         ['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z','info@tasbagus.com','Email'],
-                        ['M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z','+62 812-3456-7890','Telepon'],
                     ] as $c)
                     <div class="flex items-start space-x-4">
                         <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(249,115,22,0.1); border:1px solid rgba(249,115,22,0.2)">
@@ -437,19 +474,33 @@
                         </div>
                     </div>
                     @endforeach
+                    
+                    <!-- WhatsApp Admin -->
+                    <a href="https://wa.me/6289616392586?text=Halo%20Admin%20TasBagus,%20saya%20ingin%20bertanya..." target="_blank" class="flex items-start space-x-4 p-3 -ml-3 rounded-xl hover:bg-[#1e2d3d] transition-all group">
+                        <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-[rgba(37,211,102,0.15)] border border-[rgba(37,211,102,0.3)] shadow-[0_0_15px_rgba(37,211,102,0.2)] group-hover:bg-[#25D366] transition-all">
+                            <svg class="w-6 h-6 text-[#25D366] group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-green-400 font-bold text-xs mb-1 uppercase tracking-wide">WhatsApp Admin</p>
+                            <p class="text-white font-bold text-lg group-hover:text-[#25D366] transition-colors">+62 896-1639-2586</p>
+                        </div>
+                    </a>
                 </div>
             </div>
-            <div class="rounded-2xl p-8" style="background:var(--dark2); border:1px solid rgba(249,115,22,0.1)">
-                <h3 class="text-xl font-bold text-white mb-6">Kirim Pesan</h3>
-                <form class="space-y-4">
-                    <div class="grid grid-cols-2 gap-4">
-                        <input type="text" placeholder="Nama Lengkap" class="w-full px-4 py-3 rounded-xl text-white text-sm focus:outline-none focus:border-orange-500 transition-colors" style="background:var(--dark3); border:1px solid rgba(255,255,255,0.08); color:#e2e8f0">
-                        <input type="email" placeholder="Email" class="w-full px-4 py-3 rounded-xl text-white text-sm focus:outline-none focus:border-orange-500 transition-colors" style="background:var(--dark3); border:1px solid rgba(255,255,255,0.08); color:#e2e8f0">
-                    </div>
-                    <input type="text" placeholder="Subjek" class="w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-orange-500 transition-colors" style="background:var(--dark3); border:1px solid rgba(255,255,255,0.08); color:#e2e8f0">
-                    <textarea rows="4" placeholder="Pesan Anda..." class="w-full px-4 py-3 rounded-xl text-sm focus:outline-none focus:border-orange-500 transition-colors resize-none" style="background:var(--dark3); border:1px solid rgba(255,255,255,0.08); color:#e2e8f0"></textarea>
-                    <button type="submit" class="btn-orange w-full py-4 rounded-xl font-semibold">Kirim Pesan</button>
-                </form>
+            <div class="rounded-2xl p-10 flex flex-col items-center justify-center text-center relative overflow-hidden" style="background:linear-gradient(135deg, var(--dark2), #111a24); border:1px solid rgba(249,115,22,0.1)">
+                <!-- Decorative background ring -->
+                <div class="absolute top-0 right-0 w-64 h-64 bg-[#25D366] rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
+                
+                <h3 class="text-2xl font-bold text-white mb-4 relative z-10">Chat Langsung via WhatsApp</h3>
+                <p class="text-gray-400 text-sm mb-8 relative z-10 max-w-sm">Punya pertanyaan seputar produk, stok grosir, atau ingin bertanya langsung pada tim kami? Jangan sungkan, klik tombol di bawah ini!</p>
+                <a href="https://wa.me/6289616392586?text=Halo%20Admin%20TasBagus,%20saya%20punya%20pertanyaan..." target="_blank" class="bg-[#25D366] hover:bg-[#1fbb59] text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center space-x-3 shadow-[0_10px_30px_rgba(37,211,102,0.3)] hover:shadow-[0_15px_40px_rgba(37,211,102,0.4)] transition-all hover:-translate-y-1 relative z-10">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                    </svg>
+                    <span>Mulai Chat Sekarang</span>
+                </a>
             </div>
         </div>
     </div>
@@ -521,5 +572,19 @@
     });
 </script>
 @endauth
+
+<script>
+    // Mobile Menu Toggle
+    document.getElementById('mobile-menu-btn').addEventListener('click', function() {
+        document.getElementById('mobile-menu').classList.toggle('hidden');
+    });
+
+    // Close mobile menu when a link is clicked
+    document.querySelectorAll('.mobile-link').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.add('hidden');
+        });
+    });
+</script>
 </body>
 </html>

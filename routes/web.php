@@ -21,6 +21,7 @@ Route::get('/products/{slug}', [ProductController::class, 'show'])->name('produc
 Route::middleware('auth')->group(function () {
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/cart/buy-now', [CartController::class, 'buyNow'])->name('cart.buy-now');
     Route::patch('/cart/{cart}', [CartController::class, 'update'])->name('cart.update');
     Route::delete('/cart/{cart}', [CartController::class, 'remove'])->name('cart.remove');
     Route::delete('/cart', [CartController::class, 'clear'])->name('cart.clear');
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
     Route::post('/orders', [OrderController::class, 'store'])->name('orders.store');
     Route::patch('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+    Route::patch('/orders/{order}/complete', [OrderController::class, 'complete'])->name('orders.complete');
 });
 
 // Dashboard
@@ -64,6 +66,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     // Reports
     Route::get('/reports', [App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/pdf', [App\Http\Controllers\Admin\ReportController::class, 'printPdf'])->name('reports.pdf');
+    Route::get('/reports/excel', [App\Http\Controllers\Admin\ReportController::class, 'printExcel'])->name('reports.excel');
 });
 
 // Profile Routes

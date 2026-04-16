@@ -95,8 +95,8 @@
                                     </svg>
                                 </div>
                                 <div class="ml-4">
-                                    <p class="font-semibold text-gray-800">Pesanan Dikirim</p>
-                                    <p class="text-sm text-gray-600">Dalam perjalanan ke alamat Anda</p>
+                                    <p class="font-semibold text-gray-800">Pesanan Berhasil</p>
+                                    <p class="text-sm text-gray-600">Pesanan sedang menuju perjalanan Anda</p>
                                 </div>
                             </div>
                             @endif
@@ -121,8 +121,23 @@
                             <form action="{{ route('orders.cancel', $order) }}" method="POST" onsubmit="return confirm('Yakin ingin membatalkan pesanan ini?')">
                                 @csrf
                                 @method('PATCH')
-                                <button type="submit" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-xl hover:shadow-xl transition-all duration-300 hover:scale-105 font-semibold">
+                                <button type="submit" class="px-6 py-3 bg-gradient-to-r from-red-500 to-red-700 text-white rounded-xl hover:shadow-xl transition-all duration-300 hover:scale-105 font-semibold w-full">
                                     Batalkan Pesanan
+                                </button>
+                            </form>
+                        </div>
+                        @endif
+
+                        @if($order->status === 'delivered')
+                        <div class="mt-6">
+                            <form action="{{ route('orders.complete', $order) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin pesanan sudah diterima dan sesuai?')">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit" class="px-6 py-3 bg-gradient-to-r from-green-500 to-green-700 text-white rounded-xl hover:shadow-xl transition-all duration-300 hover:scale-105 font-semibold w-full flex justify-center items-center space-x-2">
+                                    <svg class="w-5 h-5 mx-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                    <span>Terima Pesanan</span>
                                 </button>
                             </form>
                         </div>
@@ -219,16 +234,21 @@
                                     <p class="mt-2">Setelah transfer, konfirmasi pembayaran melalui WhatsApp: <strong>0812-3456-7890</strong></p>
                                 </div>
                             @elseif($order->payment_method === 'QRIS')
-                                <div class="text-sm text-yellow-700 space-y-3 text-center md:text-left">
-                                    <p>Silakan scan kode QRIS berikut menggunakan aplikasi DANA, OVO, GoPay, ShopeePay, atau Mobile Banking pilihan Anda:</p>
+                                <div class="bg-white p-6 rounded-2xl border-2 border-orange-200 shadow-md text-center mt-4">
+                                    <h3 class="font-extrabold text-xl text-gray-800 mb-2">Pindai Kode QRIS</h3>
+                                    <p class="text-gray-600 text-sm mb-6">Gunakan aplikasi DANA, OVO, GoPay, ShopeePay, atau m-Banking pilihan Anda.</p>
+                                    
                                     @if(\Storage::disk('public')->exists('settings/qris.png'))
-                                        <div class="bg-white p-4 rounded-2xl shadow-sm inline-block border border-yellow-300">
-                                            <img src="{{ asset('storage/settings/qris.png') }}?v={{ time() }}" alt="QRIS Penjual" class="w-48 h-48 object-contain mx-auto">
+                                        <div class="bg-gray-50 p-2 rounded-2xl inline-block border-[3px] border-orange-400 shadow-lg mb-4">
+                                            <img src="{{ asset('storage/settings/qris.png') }}?v={{ time() }}" alt="QRIS Penjual" class="w-full max-w-sm h-auto mx-auto object-contain rounded-xl">
                                         </div>
                                     @else
-                                        <div class="bg-yellow-200 text-yellow-800 p-3 rounded-lg border border-yellow-400 font-semibold italic text-center text-xs">QRIS belum dipasang oleh Admin. Harap hubungi WhatsApp: 0812-3456-7890.</div>
+                                        <div class="bg-yellow-200 text-yellow-800 p-4 rounded-lg border border-yellow-400 font-semibold italic text-center mb-4">QRIS belum dipasang oleh Admin. Harap hubungi WhatsApp: 0812-3456-7890.</div>
                                     @endif
-                                    <p class="mt-2">Setelah sukses scan dan transfer, konfirmasi pembayaran Anda melalui WhatsApp: <strong>0812-3456-7890</strong></p>
+                                    
+                                    <div class="flex justify-center items-center mt-4 border-t border-gray-100 pt-4">
+                                        <p class="text-sm font-semibold text-gray-700">Setelah transfer sukses, konfirmasi ke WhatsApp: <span class="text-orange-500">0812-3456-7890</span></p>
+                                    </div>
                                 </div>
                             @elseif($order->payment_method === 'GoPay')
                                 <div class="text-sm text-yellow-700 space-y-2">
