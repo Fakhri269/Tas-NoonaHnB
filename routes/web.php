@@ -6,6 +6,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 // Public Routes
 Route::get('/', function () {
@@ -40,7 +41,7 @@ Route::middleware('auth')->group(function () {
 
 // Dashboard
 Route::get('/dashboard', function () {
-    if (auth()->check() && auth()->user()->isAdmin()) {
+    if (Auth::check() && Auth::user() && Auth::user()->role === 'admin') {
         return redirect()->route('admin.dashboard');
     }
     return redirect()->route('orders.index');
@@ -65,6 +66,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     // Settings
     Route::get('/settings/qris', [App\Http\Controllers\Admin\SettingController::class, 'qris'])->name('settings.qris');
     Route::post('/settings/qris', [App\Http\Controllers\Admin\SettingController::class, 'updateQris'])->name('settings.qris.update');
+    Route::post('/settings/discount', [App\Http\Controllers\Admin\SettingController::class, 'updateDiscount'])->name('settings.discount.update');
 
     // Reports
     Route::get('/reports', [App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');

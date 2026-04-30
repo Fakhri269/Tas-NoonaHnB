@@ -29,15 +29,12 @@
                             <p class="text-gray-500 text-xs mt-1">{{ $item->product->category->name }}</p>
                             <p class="text-orange-400 font-bold mt-1">Rp {{ number_format($item->price, 0, ',', '.') }}</p>
                         </div>
-                        <!-- Qty Controls -->
-                        <div class="flex items-center space-x-2">
                             <form action="{{ route('cart.update', $item) }}" method="POST" class="flex items-center space-x-2">
                                 @csrf @method('PATCH')
-                                <button type="button" onclick="const inpt=this.nextElementSibling; if(inpt.value>1){ inpt.stepDown(); this.form.submit(); }" class="w-8 h-8 rounded-lg text-white font-bold transition-all hover:scale-110 {{ $item->quantity <= 1 ? 'opacity-40 cursor-not-allowed' : '' }}" style="background:rgba(249,115,22,0.2); border:1px solid rgba(249,115,22,0.3)" {{ $item->quantity <= 1 ? 'disabled' : '' }}>-</button>
+                                <button type="button" onclick="const qtyInputMinus = this.nextElementSibling; if(qtyInputMinus.value>1){ qtyInputMinus.stepDown(); this.form.submit(); }" class="w-8 h-8 rounded-lg text-white font-bold transition-all hover:scale-110 {{ $item->quantity <= 1 ? 'opacity-40 cursor-not-allowed' : '' }}" style="background:rgba(249,115,22,0.2); border:1px solid rgba(249,115,22,0.3)" {{ $item->quantity <= 1 ? 'disabled' : '' }}>-</button>
                                 <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" max="{{ $item->product->stock }}" class="w-14 text-center text-white font-bold bg-[#1e2d3d] border border-gray-600 rounded-lg py-1 focus:outline-none focus:border-orange-500 custom-spin-hidden" onchange="this.form.submit()">
-                                <button type="button" onclick="const inpt=this.previousElementSibling; if(inpt.value<{{ $item->product->stock }}){ inpt.stepUp(); this.form.submit(); }" class="w-8 h-8 rounded-lg text-white font-bold transition-all hover:scale-110 {{ $item->quantity >= $item->product->stock ? 'opacity-40 cursor-not-allowed' : '' }}" style="background:rgba(249,115,22,0.2); border:1px solid rgba(249,115,22,0.3)" {{ $item->quantity >= $item->product->stock ? 'disabled' : '' }}>+</button>
+                                <button type="button" onclick="const qtyInputPlus = this.previousElementSibling; if(parseInt(qtyInputPlus.value) < parseInt(qtyInputPlus.getAttribute('max'))){ qtyInputPlus.stepUp(); this.form.submit(); }" class="w-8 h-8 rounded-lg text-white font-bold transition-all hover:scale-110 {{ $item->quantity >= $item->product->stock ? 'opacity-40 cursor-not-allowed' : '' }}" style="background:rgba(249,115,22,0.2); border:1px solid rgba(249,115,22,0.3)" {{ $item->quantity >= $item->product->stock ? 'disabled' : '' }}>+</button>
                             </form>
-                        </div>
                         <div class="text-right flex-shrink-0">
                             <p class="text-white font-bold">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</p>
                             <form action="{{ route('cart.remove', $item) }}" method="POST" class="mt-2">
@@ -62,12 +59,8 @@
                     <div class="card-dark p-6 sticky top-24">
                         <h2 class="text-white font-bold text-lg mb-5">Ringkasan Pesanan</h2>
                         <div class="space-y-3 mb-5">
-                            <div class="flex justify-between text-sm">
-                                <span class="text-gray-400">Subtotal (<span id="sum-qty">{{ $cartItems->sum('quantity') }}</span> item)</span>
-                                <span class="text-white font-semibold" id="sum-subtotal">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
-                            </div>
-                            <div class="flex justify-between text-sm" id="discount-container" style="{{ $discount > 0 ? '' : 'display:none;' }}">
-                                <span class="text-gray-400">Diskon 10% (Promo)</span>
+                            <div class="flex justify-between text-sm" id="discount-container" style="display: none;">
+                                <span class="text-gray-400" id="discount-label">{{ $discountSettings['label'] }} {{ $discountSettings['percentage'] > 0 ? '('.$discountSettings['percentage'].'%)' : '' }}</span>
                                 <span class="text-green-400 font-semibold" id="sum-discount">- Rp {{ number_format($discount, 0, ',', '.') }}</span>
                             </div>
                             <div class="flex justify-between text-sm">
@@ -76,7 +69,7 @@
                                     @if($shippingCost == 0) <span class="text-green-400">GRATIS</span> @else Rp {{ number_format($shippingCost, 0, ',', '.') }} @endif
                                 </span>
                             </div>
-                            <div id="free-shipping-msg" class="px-3 py-2 rounded-xl text-xs font-medium" style="{{ $subtotal >= 500000 ? 'background:rgba(34,197,94,0.1); border:1px solid rgba(34,197,94,0.2); color:#86efac' : 'background:rgba(249,115,22,0.1); border:1px solid rgba(249,115,22,0.2); color:#fdba74' }}">
+                            <div id="free-shipping-msg" class="px-3 py-2 rounded-xl text-xs font-medium" style="background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.2); color: #fdba74;">
                                 @if($subtotal >= 500000)
                                     🎉 Selamat! Anda mendapat gratis ongkir
                                 @else
@@ -119,8 +112,14 @@
                 qty += parseInt(cb.dataset.quantity);
             });
 
+            const discountThreshold = parseFloat('{{ $discountSettings["threshold"] }}');
+            const discountPercentage = parseFloat('{{ $discountSettings["percentage"] }}');
+            const discountLabel = '{{ $discountSettings["label"] }}';
+
             let discount = 0;
-            if (subtotal >= 200000) discount = subtotal * 0.10;
+            if (discountPercentage > 0 && subtotal >= discountThreshold) {
+                discount = subtotal * (discountPercentage / 100);
+            }
 
             let shipping = 0;
             if (subtotal > 0 && subtotal < 500000) shipping = 50000;
@@ -136,6 +135,7 @@
             const discCont = document.getElementById('discount-container');
             if (discount > 0) {
                 discCont.style.display = 'flex';
+                document.getElementById('discount-label').innerText = discountLabel + (discountPercentage > 0 ? ' (' + discountPercentage + '%)' : '');
                 document.getElementById('sum-discount').innerText = '- ' + formatRp(discount);
             } else {
                 discCont.style.display = 'none';
@@ -200,7 +200,7 @@
     </script>
     <style>
         .custom-spin-hidden::-webkit-outer-spin-button,
-        .custom-spin-hidden::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        .custom-spin-hidden[type=number] { -moz-appearance: textfield; }
+        .custom-spin-hidden::-webkit-inner-spin-button { -webkit-appearance: none; appearance: none; margin: 0; }
+        .custom-spin-hidden[type=number] { -moz-appearance: textfield; appearance: textfield; }
     </style>
 </x-main-layout>

@@ -122,6 +122,50 @@
                 </span>
             </form>
 
+            <div class="card-dark p-6 mb-8">
+                <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+                    <div>
+                        <h2 class="text-lg font-bold text-white">Pengaturan Diskon Event</h2>
+                        <p class="text-gray-500 text-sm">Aktifkan atau nonaktifkan diskon otomatis tanpa mengubah kode.</p>
+                    </div>
+                    <span class="text-sm text-gray-400">Atur diskon untuk keranjang dan checkout</span>
+                </div>
+                @if(session('success'))
+                    <div class="mb-4 rounded-xl bg-green-500/10 border border-green-500/20 text-green-200 px-4 py-3 text-sm">{{ session('success') }}</div>
+                @endif
+                <form action="{{ route('admin.settings.discount.update') }}" method="POST" class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    @csrf
+                    <div class="rounded-2xl bg-[#101823] border border-gray-800 p-5">
+                        <label class="flex items-center space-x-3">
+                            <span class="text-gray-300 font-semibold">Diskon Aktif</span>
+                            <input type="checkbox" name="enabled" value="1" class="h-5 w-5 text-orange-500 accent-orange-500" {{ $discountSettings['enabled'] ? 'checked' : '' }}>
+                        </label>
+                        <p class="text-gray-500 text-xs mt-3">Aktifkan untuk menerapkan diskon otomatis saat pelanggan mencapai nilai minimum.</p>
+                    </div>
+                    <div class="rounded-2xl bg-[#101823] border border-gray-800 p-5">
+                        <label class="block text-sm text-gray-300 font-semibold mb-2">Nilai Minimum</label>
+                        <input type="number" name="threshold" min="0" value="{{ old('threshold', $discountSettings['threshold']) }}" class="w-full input-dark rounded-xl px-4 py-3 bg-[#0d1722] border border-gray-700 text-white focus:outline-none focus:border-orange-500">
+                        @error('threshold')<p class="text-red-400 text-xs mt-2">{{ $message }}</p>@enderror
+                        <p class="text-gray-500 text-xs mt-2">Total keranjang harus mencapai nilai ini untuk mendapat diskon.</p>
+                    </div>
+                    <div class="rounded-2xl bg-[#101823] border border-gray-800 p-5">
+                        <label class="block text-sm text-gray-300 font-semibold mb-2">Persentase Diskon</label>
+                        <input type="number" name="percentage" min="0" max="100" value="{{ old('percentage', $discountSettings['percentage']) }}" class="w-full input-dark rounded-xl px-4 py-3 bg-[#0d1722] border border-gray-700 text-white focus:outline-none focus:border-orange-500">
+                        @error('percentage')<p class="text-red-400 text-xs mt-2">{{ $message }}</p>@enderror
+                        <p class="text-gray-500 text-xs mt-2">Masukkan nilai persen diskon untuk event.</p>
+                    </div>
+                    <div class="lg:col-span-3 rounded-2xl bg-[#101823] border border-gray-800 p-5">
+                        <label class="block text-sm text-gray-300 font-semibold mb-2">Nama Promo</label>
+                        <input type="text" name="label" value="{{ old('label', $discountSettings['label']) }}" class="w-full input-dark rounded-xl px-4 py-3 bg-[#0d1722] border border-gray-700 text-white focus:outline-none focus:border-orange-500">
+                        @error('label')<p class="text-red-400 text-xs mt-2">{{ $message }}</p>@enderror
+                        <p class="text-gray-500 text-xs mt-2">Label ini akan tampil di ringkasan keranjang dan checkout.</p>
+                    </div>
+                    <div class="lg:col-span-3 text-right">
+                        <button type="submit" class="btn-orange px-6 py-3 rounded-xl text-sm font-semibold">Simpan Pengaturan Diskon</button>
+                    </div>
+                </form>
+            </div>
+
             <!-- ── CHART HARIAN ── -->
             <div class="card-dark p-6 mb-8">
                 <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
@@ -188,7 +232,7 @@
                                 <p class="text-white text-sm font-semibold truncate">{{ $p->product_name }}</p>
                                 <div class="flex items-center space-x-3 mt-1">
                                     <div class="flex-1 h-1.5 rounded-full" style="background:rgba(255,255,255,0.06)">
-                                        <div class="h-1.5 rounded-full" style="width:{{ $barPct }}%;background:linear-gradient(90deg,#f97316,#ea580c)"></div>
+                                        <div class="h-1.5 rounded-full progress-bar" data-width="{{ $barPct }}" style="background:linear-gradient(90deg,#f97316,#ea580c)"></div>
                                     </div>
                                     <span class="text-gray-500 text-xs flex-shrink-0">{{ $p->total_qty }} terjual</span>
                                 </div>
@@ -264,12 +308,12 @@
         Chart.defaults.font.family = 'Poppins, sans-serif';
 
         // Data passed from PHP
-        var dailyLabels    = {{ Js::from($dailyLabels) }};
-        var dailyRevenue   = {{ Js::from($dailyRevenue) }};
-        var dailyOrders    = {{ Js::from($dailyOrders) }};
-        var monthlyLabels  = {{ Js::from($monthlyLabels) }};
-        var monthlyRevenue = {{ Js::from($monthlyRevenue) }};
-        var monthlyOrders  = {{ Js::from($monthlyOrders) }};
+        var dailyLabels    = JSON.parse('{{ json_encode($dailyLabels) }}');
+        var dailyRevenue   = JSON.parse('{{ json_encode($dailyRevenue) }}');
+        var dailyOrders    = JSON.parse('{{ json_encode($dailyOrders) }}');
+        var monthlyLabels  = JSON.parse('{{ json_encode($monthlyLabels) }}');
+        var monthlyRevenue = JSON.parse('{{ json_encode($monthlyRevenue) }}');
+        var monthlyOrders  = JSON.parse('{{ json_encode($monthlyOrders) }}');
 
         function fmtRp(v) {
             if (v >= 1000000) return 'Rp ' + (v / 1000000).toFixed(1) + 'jt';
@@ -408,6 +452,12 @@
                     }
                 }
             }
+        });
+
+        // Set progress bar widths
+        document.querySelectorAll('.progress-bar').forEach(bar => {
+            const width = bar.getAttribute('data-width');
+            bar.style.width = width + '%';
         });
     </script>
     @endpush

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use App\Services\DiscountService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -14,7 +16,7 @@ class AdminController extends Controller
     public function dashboard(Request $request)
     {
         // Admin check
-        if (!auth()->user()->isAdmin()) {
+        if (!Auth::check() || !Auth::user() || Auth::user()->role !== 'admin') {
             abort(403, 'Akses ditolak. Halaman ini hanya untuk admin.');
         }
 
@@ -102,13 +104,16 @@ class AdminController extends Controller
             ->pluck('y')->toArray();
         if (empty($years)) $years = [now()->year];
 
+        $discountSettings = DiscountService::getSettings();
+
         return view('admin.dashboard', compact(
             'totalRevenue', 'totalOrders', 'totalProducts', 'totalUsers',
             'pendingOrders', 'monthRevenue',
             'dailyLabels', 'dailyRevenue', 'dailyOrders',
             'monthlyLabels', 'monthlyRevenue', 'monthlyOrders',
             'topProducts', 'recentOrders',
-            'month', 'year', 'years', 'daysInMonth', 'monthNames'
+            'month', 'year', 'years', 'daysInMonth', 'monthNames',
+            'discountSettings'
         ));
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Cart;
+use App\Services\DiscountService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -51,16 +52,13 @@ class OrderController extends Controller
         }
 
         $subtotal = $cartItems->sum('subtotal');
-        
-        $discount = 0;
-        if ($subtotal >= 200000) {
-            $discount = $subtotal * 0.10; // 10% discount
-        }
+        $discountSettings = DiscountService::getSettings();
+        $discount = DiscountService::calculateDiscount($subtotal);
 
         $shippingCost = $subtotal >= 500000 ? 0 : 50000;
         $total = $subtotal - $discount + $shippingCost;
 
-        return view('orders.checkout', compact('cartItems', 'subtotal', 'discount', 'shippingCost', 'total'));
+        return view('orders.checkout', compact('cartItems', 'subtotal', 'discount', 'shippingCost', 'total', 'discountSettings'));
     }
 
     public function store(Request $request)
@@ -101,11 +99,8 @@ class OrderController extends Controller
         DB::beginTransaction();
         try {
             $subtotal = $cartItems->sum('subtotal');
-            
-            $discount = 0;
-            if ($subtotal >= 200000) {
-                $discount = $subtotal * 0.10; // 10% discount
-            }
+            $discountSettings = DiscountService::getSettings();
+            $discount = DiscountService::calculateDiscount($subtotal);
 
             $shippingCost = $subtotal >= 500000 ? 0 : 50000;
             $total = $subtotal - $discount + $shippingCost;

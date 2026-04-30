@@ -150,7 +150,7 @@
                                 
                                 @if($discount > 0)
                                 <div class="flex justify-between text-sm">
-                                    <span class="text-gray-400 font-medium">Diskon 10% (Promo)</span>
+                                    <span class="text-gray-400 font-medium">{{ $discountSettings['label'] }} {{ $discountSettings['percentage'] > 0 ? '('.$discountSettings['percentage'].'%)' : '' }}</span>
                                     <span class="font-bold" style="color:#86efac">- Rp {{ number_format($discount, 0, ',', '.') }}</span>
                                 </div>
                                 @endif
