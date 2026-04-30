@@ -12,10 +12,10 @@ class AdminSeeder extends Seeder
     {
         // Create admin user
         User::updateOrCreate(
-            ['email' => 'admin@tasbagus.com'],
+            ['email' => 'admin@tasnoonahnb.com'],
             [
-                'name'     => 'Admin TasBagus',
-                'email'    => 'admin@tasbagus.com',
+                'name'     => 'Admin Tas NoonaHnB',
+                'email'    => 'admin@tasnoonahnb.com',
                 'password' => Hash::make('admin123'),
                 'role'     => 'admin',
                 'email_verified_at' => now(),
@@ -25,6 +25,6 @@ class AdminSeeder extends Seeder
         // Upgrade existing test user to admin too (optional)
         User::where('email', 'test@example.com')->update(['role' => 'user']);
 
-        $this->command->info('Admin created: admin@tasbagus.com / admin123');
+        $this->command->info('Admin created: admin@tasnoonahnb.com / admin123');
     }
 }

@@ -218,7 +218,7 @@ Lalu buka browser dan test:
 
 ## 🎉 Selesai!
 
-Aplikasi TasBagus sudah berfungsi dengan baik. Dashboard sudah tidak error lagi dan menampilkan:
+Aplikasi Tas NoonaHnB sudah berfungsi dengan baik. Dashboard sudah tidak error lagi dan menampilkan:
 - Statistics user
 - Quick actions
 - Recent orders (empty state jika belum ada)

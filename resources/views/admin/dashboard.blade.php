@@ -1,5 +1,5 @@
 <x-admin-layout>
-    <x-slot name="title">Admin Dashboard - TasBagus</x-slot>
+    <x-slot name="title">Admin Dashboard - Tas NoonaHnB</x-slot>
 
     @push('styles')
     <style>
@@ -18,7 +18,7 @@
         <div class="flex items-center justify-between flex-wrap gap-4">
             <div>
                 <h1 class="text-2xl font-bold text-white">Dashboard <span class="text-orange-500">Statistik</span></h1>
-                <p class="text-sm text-gray-400 mt-1">Ringkasan performa penjualan dan statistik TasBagus.</p>
+                <p class="text-sm text-gray-400 mt-1">Ringkasan performa penjualan dan statistik Tas NoonaHnB.</p>
             </div>
             <a href="{{ route('dashboard') }}" target="_blank" class="px-4 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-sm font-semibold flex items-center space-x-2 transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

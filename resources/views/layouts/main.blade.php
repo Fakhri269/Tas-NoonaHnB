@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title ?? 'TasBagus - Koleksi Tas Premium' }}</title>
+    <title>{{ $title ?? 'Tas NoonaHnB - Koleksi Tas Premium' }}</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:300,400,500,600,700,800" rel="stylesheet" />
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -98,7 +98,7 @@
         <!-- Logo -->
         <a href="{{ route('home') }}" class="flex items-center space-x-2 group">
             <div class="w-9 h-9 rounded-lg btn-orange flex items-center justify-center font-bold text-lg shadow-lg">T</div>
-            <span class="text-xl font-bold text-white">Tas<span class="text-orange">Bagus</span></span>
+            <span class="text-xl font-bold text-white">Tas <span class="text-orange">NoonaHnB</span></span>
         </a>
 
         <!-- Desktop Menu -->
@@ -250,7 +250,7 @@
             <div>
                 <div class="flex items-center space-x-2 mb-4">
                     <div class="w-9 h-9 rounded-lg btn-orange flex items-center justify-center font-bold text-lg">T</div>
-                    <span class="text-xl font-bold text-white">Tas<span class="text-orange">Bagus</span></span>
+                    <span class="text-xl font-bold text-white">Tas <span class="text-orange">NoonaHnB</span></span>
                 </div>
                 <p class="text-gray-500 text-sm leading-relaxed">Toko tas online terpercaya dengan koleksi premium dan harga terjangkau.</p>
             </div>
@@ -284,7 +284,7 @@
             </div>
         </div>
         <div class="border-t pt-8 flex flex-col md:flex-row justify-between items-center" style="border-color:rgba(249,115,22,0.1)">
-            <p class="text-gray-600 text-sm">&copy; 2026 TasBagus. All rights reserved.</p>
+            <p class="text-gray-600 text-sm">&copy; 2026 Tas NoonaHnB. All rights reserved.</p>
             <p class="text-gray-600 text-sm mt-2 md:mt-0">Made with ❤️ for fashion lovers</p>
         </div>
     </div>

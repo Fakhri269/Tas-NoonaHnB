@@ -59,6 +59,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     // Products
     Route::resource('products', App\Http\Controllers\Admin\ProductController::class)->except('show');
 
+    // Users
+    Route::get('/users', [App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+
     // Settings
     Route::get('/settings/qris', [App\Http\Controllers\Admin\SettingController::class, 'qris'])->name('settings.qris');
     Route::post('/settings/qris', [App\Http\Controllers\Admin\SettingController::class, 'updateQris'])->name('settings.qris.update');

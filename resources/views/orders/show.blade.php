@@ -1,5 +1,5 @@
 <x-main-layout>
-    <x-slot name="title">Detail Pesanan #{{ $order->order_number }} - TasBagus</x-slot>
+    <x-slot name="title">Detail Pesanan #{{ $order->order_number }} - Tas NoonaHnB</x-slot>
 
     <!-- Header with Modern Design -->
     <section class="hero-gradient text-white py-16 relative overflow-hidden">
@@ -230,7 +230,7 @@
                             @elseif($order->payment_method === 'DANA')
                                 <div class="text-sm text-yellow-700 space-y-2">
                                     <p>Transfer ke nomor DANA: <strong>0812-3456-7890</strong></p>
-                                    <p>a.n. TasBagus</p>
+                                    <p>a.n. Tas NoonaHnB</p>
                                     <p class="mt-2">Setelah transfer, konfirmasi pembayaran melalui WhatsApp: <strong>0812-3456-7890</strong></p>
                                 </div>
                             @elseif($order->payment_method === 'QRIS')
@@ -253,7 +253,7 @@
                             @elseif($order->payment_method === 'GoPay')
                                 <div class="text-sm text-yellow-700 space-y-2">
                                     <p>Transfer ke nomor GoPay: <strong>0812-3456-7890</strong></p>
-                                    <p>a.n. TasBagus</p>
+                                    <p>a.n. Tas NoonaHnB</p>
                                     <p class="mt-2">Setelah transfer, konfirmasi pembayaran melalui WhatsApp: <strong>0812-3456-7890</strong></p>
                                 </div>
                             @endif
@@ -321,7 +321,7 @@
         <div style="width: 80mm; font-family: 'Courier New', monospace; padding: 10px;">
             <!-- Header -->
             <div style="text-align: center; border-bottom: 2px dashed #000; padding-bottom: 10px; margin-bottom: 10px;">
-                <h2 style="margin: 0; font-size: 20px; font-weight: bold;">TASBAGUS</h2>
+                <h2 style="margin: 0; font-size: 20px; font-weight: bold;">TAS NOONAHNB</h2>
                 <p style="margin: 5px 0; font-size: 12px;">Toko Tas Premium Terpercaya</p>
                 <p style="margin: 0; font-size: 11px;">Jl. Contoh No. 123, Jakarta</p>
                 <p style="margin: 0; font-size: 11px;">Telp: 0812-3456-7890</p>
@@ -433,7 +433,7 @@
             <div style="text-align: center; font-size: 11px;">
                 <p style="margin: 5px 0;">Terima kasih atas pembelian Anda!</p>
                 <p style="margin: 5px 0;">Barang yang sudah dibeli tidak dapat dikembalikan</p>
-                <p style="margin: 10px 0 5px 0; font-weight: bold;">www.tasbagus.com</p>
+                <p style="margin: 10px 0 5px 0; font-weight: bold;">www.tasnoonahnb.com</p>
                 <p style="margin: 5px 0; font-size: 10px;">{{ now()->format('d/m/Y H:i:s') }}</p>
             </div>
         </div>

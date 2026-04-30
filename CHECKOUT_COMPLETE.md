@@ -89,17 +89,17 @@
 - Tidak perlu konfirmasi pembayaran
 
 ### Bank Transfer
-- **BCA**: 1234567890 a.n. TasBagus
-- **Mandiri**: 0987654321 a.n. TasBagus
-- **BNI**: 5555666677 a.n. TasBagus
+- **BCA**: 1234567890 a.n. Tas NoonaHnB
+- **Mandiri**: 0987654321 a.n. Tas NoonaHnB
+- **BNI**: 5555666677 a.n. Tas NoonaHnB
 - Konfirmasi via WhatsApp: 0812-3456-7890
 
 ### DANA
-- Nomor: 0812-3456-7890 a.n. TasBagus
+- Nomor: 0812-3456-7890 a.n. Tas NoonaHnB
 - Konfirmasi via WhatsApp: 0812-3456-7890
 
 ### GoPay
-- Nomor: 0812-3456-7890 a.n. TasBagus
+- Nomor: 0812-3456-7890 a.n. Tas NoonaHnB
 - Konfirmasi via WhatsApp: 0812-3456-7890
 
 ## Status Pesanan

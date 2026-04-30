@@ -24,7 +24,7 @@
 <body>
 
     <div class="header">
-        <h1>TasBagus - Laporan Penjualan</h1>
+        <h1>Tas NoonaHnB - Laporan Penjualan</h1>
         <p>Periode: {{ $monthName }} {{ $year }}</p>
     </div>
 
@@ -75,7 +75,7 @@
     @endif
 
     <div class="footer">
-        <p>Dicetak pada: {{ date('d/m/Y H:i') }} &copy; {{ date('Y') }} TasBagus</p>
+        <p>Dicetak pada: {{ date('d/m/Y H:i') }} &copy; {{ date('Y') }} Tas NoonaHnB</p>
     </div>
 
 </body>

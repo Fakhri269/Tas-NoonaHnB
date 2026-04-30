@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login - TasBagus</title>
+    <title>Login - Tas NoonaHnB</title>
     
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=poppins:400,500,600,700" rel="stylesheet" />
@@ -26,7 +26,7 @@
         <!-- Left Side - Image & Branding -->
         <div class="hidden lg:flex lg:w-1/2 hero-gradient items-center justify-center p-12 relative z-0">
             <div class="max-w-md text-white relative z-10">
-                <h1 class="text-5xl font-bold mb-6">Selamat Datang di TasBagus</h1>
+                <h1 class="text-5xl font-bold mb-6">Selamat Datang di Tas NoonaHnB</h1>
                 <p class="text-xl mb-8 text-gray-400">Temukan koleksi tas premium terbaik untuk menemani aktivitas Anda setiap hari</p>
                 <div class="space-y-4">
                     <div class="flex items-center">
@@ -56,7 +56,7 @@
             <div class="max-w-md w-full bg-[#162030] p-8 rounded-2xl border border-gray-800 shadow-2xl">
                 <!-- Logo -->
                 <div class="text-center mb-8">
-                    <a href="/" class="text-4xl font-bold text-white">Tas<span class="text-orange-500">Bagus</span></a>
+                    <a href="/" class="text-4xl font-bold text-white">Tas <span class="text-orange-500">NoonaHnB</span></a>
                     <p class="text-gray-400 mt-2">Masuk ke akun Anda</p>
                 </div>
 

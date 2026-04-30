@@ -1,4 +1,4 @@
-# Final Summary - TasBagus E-Commerce
+# Final Summary - Tas NoonaHnB E-Commerce
 
 ## ✅ Semua Fitur Sudah Selesai!
 
@@ -67,4 +67,4 @@ http://localhost:8000
 
 ## 🎉 Selesai!
 
-Aplikasi TasBagus sudah lengkap dan siap digunakan!
+Aplikasi Tas NoonaHnB sudah lengkap dan siap digunakan!

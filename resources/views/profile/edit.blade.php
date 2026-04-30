@@ -35,7 +35,7 @@
 </x-admin-layout>
 @else
 <x-main-layout>
-    <x-slot name="title">Profil Saya - TasBagus</x-slot>
+    <x-slot name="title">Profil Saya - Tas NoonaHnB</x-slot>
 
     <section class="hero-gradient py-14 relative">
         <div class="absolute top-0 right-0 w-64 h-64 float-animation" style="background:radial-gradient(circle,rgba(249,115,22,0.07) 0%,transparent 70%);border-radius:50%;"></div>

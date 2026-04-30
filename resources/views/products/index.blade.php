@@ -1,5 +1,5 @@
 <x-main-layout>
-    <x-slot name="title">Produk - TasBagus</x-slot>
+    <x-slot name="title">Produk - Tas NoonaHnB</x-slot>
 
     <!-- Header -->
     <section class="hero-gradient py-14 relative">

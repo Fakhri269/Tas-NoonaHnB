@@ -1,4 +1,4 @@
-# TasBagus - Implementation Summary
+# Tas NoonaHnB - Implementation Summary
 
 ## ✅ Yang Sudah Dibuat
 
@@ -201,7 +201,7 @@ Untuk melengkapi aplikasi, Anda bisa menambahkan:
 Pastikan `.env` sudah dikonfigurasi:
 
 ```env
-APP_NAME=TasBagus
+APP_NAME=Tas NoonaHnB
 APP_URL=http://localhost:8000
 
 DB_CONNECTION=sqlite

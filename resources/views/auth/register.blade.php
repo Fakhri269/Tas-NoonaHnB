@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Daftar - TasBagus</title>
+    <title>Daftar - Tas NoonaHnB</title>
     
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=poppins:400,500,600,700" rel="stylesheet" />
@@ -26,7 +26,7 @@
         <!-- Left Side - Image & Branding -->
         <div class="hidden lg:flex lg:w-1/2 hero-gradient items-center justify-center p-12 relative z-0">
             <div class="max-w-md text-white relative z-10">
-                <h1 class="text-5xl font-bold mb-6">Bergabung dengan TasBagus</h1>
+                <h1 class="text-5xl font-bold mb-6">Bergabung dengan Tas NoonaHnB</h1>
                 <p class="text-xl mb-8 text-gray-400">Daftar sekarang dan dapatkan penawaran eksklusif untuk member baru</p>
                 <div class="bg-[#162030]/50 backdrop-blur-sm border border-gray-800 rounded-2xl p-6 space-y-4">
                     <h3 class="text-2xl font-bold text-white mb-4">Keuntungan Member:</h3>
@@ -63,7 +63,7 @@
             <div class="max-w-md w-full bg-[#162030] p-8 rounded-2xl border border-gray-800 shadow-2xl my-8">
                 <!-- Logo -->
                 <div class="text-center mb-8">
-                    <a href="/" class="text-4xl font-bold text-white">Tas<span class="text-orange-500">Bagus</span></a>
+                    <a href="/" class="text-4xl font-bold text-white">Tas <span class="text-orange-500">NoonaHnB</span></a>
                     <p class="text-gray-400 mt-2">Buat akun baru Anda</p>
                 </div>
 

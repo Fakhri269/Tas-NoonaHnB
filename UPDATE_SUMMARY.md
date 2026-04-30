@@ -38,7 +38,7 @@ php artisan db:seed --class=UpdateUserNameSeeder
 **Design Struk:**
 ```
 ================================
-         TASBAGUS
+         TAS NOONAHNB
    Toko Tas Premium Terpercaya
    Jl. Contoh No. 123, Jakarta
      Telp: 0812-3456-7890
@@ -67,7 +67,7 @@ Terima kasih atas pembelian Anda!
 Barang yang sudah dibeli
 tidak dapat dikembalikan
 
-www.tasbagus.com
+www.tasnoonahnb.com
 12/02/2026 14:30:45
 ================================
 ```

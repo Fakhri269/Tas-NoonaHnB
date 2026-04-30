@@ -81,7 +81,7 @@ class ReportController extends Controller
         
         // Header Format Rapih
         echo '<tr><th colspan="6" style="font-size: 16px; font-weight: bold; text-align:center; background-color: #f97316; color: white; padding: 10px;">LAPORAN PENJUALAN TAHUNAN & BULANAN - ' . strtoupper($monthName) . ' ' . $year . '</th></tr>';
-        echo '<tr><th colspan="6" style="text-align:center; font-style: italic; background-color: #ea580c; color: white;">TasBagus E-Commerce</th></tr>';
+        echo '<tr><th colspan="6" style="text-align:center; font-style: italic; background-color: #ea580c; color: white;">Tas NoonaHnB E-Commerce</th></tr>';
         
         echo '<tr style="background-color: #475569; color: white; font-weight: bold; text-align: center;">';
         echo '<th style="padding: 10px;">No</th>';

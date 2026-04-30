@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>TasBagus - Koleksi Tas Premium</title>
+    <title>Tas NoonaHnB - Koleksi Tas Premium</title>
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=plus-jakarta-sans:300,400,500,600,700,800" rel="stylesheet" />
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -92,7 +92,7 @@
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <a href="{{ route('home') }}" class="flex items-center space-x-2">
             <div class="w-9 h-9 rounded-lg btn-orange flex items-center justify-center font-bold text-lg">T</div>
-            <span class="text-xl font-bold text-white">Tas<span style="color:#f97316">Bagus</span></span>
+            <span class="text-xl font-bold text-white">Tas <span style="color:#f97316">NoonaHnB</span></span>
         </a>
 
         <div class="hidden md:flex items-center space-x-8">
@@ -158,7 +158,7 @@
                     <span class="text-gray-300 text-3xl md:text-4xl font-light">Anda Disini</span>
                 </h1>
                 <p class="text-gray-400 md:text-lg leading-relaxed mb-8 max-w-lg">
-                    Koleksi tas berkualitas tinggi dengan desain modern dan elegan. Dari ransel hingga tas kulit premium, semua ada di TasBagus.
+                    Koleksi tas berkualitas tinggi dengan desain modern dan elegan. Dari ransel hingga tas kulit premium, semua ada di Tas NoonaHnB.
                 </p>
                 <div class="flex flex-wrap gap-4 mb-10">
                     <a href="#products" class="btn-orange px-8 py-4 rounded-full font-semibold text-lg flex items-center space-x-2">
@@ -398,7 +398,7 @@
                 <p class="text-orange-400 text-sm font-semibold uppercase tracking-widest mb-3">Tentang Kami</p>
                 <h2 class="text-4xl font-bold text-white mb-6">Kami Hadir untuk <span style="color:#f97316">Gaya Hidup</span> Anda</h2>
                 <div class="divider mb-6"></div>
-                <p class="text-gray-400 leading-relaxed mb-4">TasBagus adalah toko online terpercaya yang menyediakan berbagai koleksi tas berkualitas premium. Kami berkomitmen memberikan produk terbaik dengan pelayanan memuaskan.</p>
+                <p class="text-gray-400 leading-relaxed mb-4">Tas NoonaHnB adalah toko online terpercaya yang menyediakan berbagai koleksi tas berkualitas premium. Kami berkomitmen memberikan produk terbaik dengan pelayanan memuaskan.</p>
                 <p class="text-gray-400 leading-relaxed mb-8">Dengan pengalaman lebih dari 5 tahun, kami telah melayani ribuan pelanggan di seluruh Indonesia dengan kepuasan tertinggi.</p>
                 <div class="grid grid-cols-2 gap-4 mb-8">
                     @foreach([['5K+','Pelanggan Puas'],['200+','Koleksi Produk'],['50+','Brand Partner'],['99%','Kepuasan']] as $s)
@@ -460,7 +460,7 @@
                 <div class="space-y-6">
                     @foreach([
                         ['M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z','Jl. Raya Tas No. 123, Jakarta Selatan 12345','Alamat'],
-                        ['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z','info@tasbagus.com','Email'],
+                        ['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z','info@tasnoonahnb.com','Email'],
                     ] as $c)
                     <div class="flex items-start space-x-4">
                         <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0" style="background:rgba(249,115,22,0.1); border:1px solid rgba(249,115,22,0.2)">
@@ -476,7 +476,7 @@
                     @endforeach
                     
                     <!-- WhatsApp Admin -->
-                    <a href="https://wa.me/6289616392586?text=Halo%20Admin%20TasBagus,%20saya%20ingin%20bertanya..." target="_blank" class="flex items-start space-x-4 p-3 -ml-3 rounded-xl hover:bg-[#1e2d3d] transition-all group">
+                    <a href="https://wa.me/6289616392586?text=Halo%20Admin%20Tas NoonaHnB,%20saya%20ingin%20bertanya..." target="_blank" class="flex items-start space-x-4 p-3 -ml-3 rounded-xl hover:bg-[#1e2d3d] transition-all group">
                         <div class="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0 bg-[rgba(37,211,102,0.15)] border border-[rgba(37,211,102,0.3)] shadow-[0_0_15px_rgba(37,211,102,0.2)] group-hover:bg-[#25D366] transition-all">
                             <svg class="w-6 h-6 text-[#25D366] group-hover:text-white transition-colors" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
@@ -495,7 +495,7 @@
                 
                 <h3 class="text-2xl font-bold text-white mb-4 relative z-10">Chat Langsung via WhatsApp</h3>
                 <p class="text-gray-400 text-sm mb-8 relative z-10 max-w-sm">Punya pertanyaan seputar produk, stok grosir, atau ingin bertanya langsung pada tim kami? Jangan sungkan, klik tombol di bawah ini!</p>
-                <a href="https://wa.me/6289616392586?text=Halo%20Admin%20TasBagus,%20saya%20punya%20pertanyaan..." target="_blank" class="bg-[#25D366] hover:bg-[#1fbb59] text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center space-x-3 shadow-[0_10px_30px_rgba(37,211,102,0.3)] hover:shadow-[0_15px_40px_rgba(37,211,102,0.4)] transition-all hover:-translate-y-1 relative z-10">
+                <a href="https://wa.me/6289616392586?text=Halo%20Admin%20Tas NoonaHnB,%20saya%20punya%20pertanyaan..." target="_blank" class="bg-[#25D366] hover:bg-[#1fbb59] text-white px-8 py-4 rounded-xl font-bold text-lg flex items-center space-x-3 shadow-[0_10px_30px_rgba(37,211,102,0.3)] hover:shadow-[0_15px_40px_rgba(37,211,102,0.4)] transition-all hover:-translate-y-1 relative z-10">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
                     </svg>
@@ -513,7 +513,7 @@
             <div class="md:col-span-1">
                 <div class="flex items-center space-x-2 mb-4">
                     <div class="w-9 h-9 rounded-lg btn-orange flex items-center justify-center font-bold text-lg">T</div>
-                    <span class="text-xl font-bold text-white">Tas<span style="color:#f97316">Bagus</span></span>
+                    <span class="text-xl font-bold text-white">Tas <span style="color:#f97316">NoonaHnB</span></span>
                 </div>
                 <p class="text-gray-500 text-sm leading-relaxed mb-6">Toko tas online terpercaya dengan koleksi premium dan harga terjangkau untuk semua kalangan.</p>
                 <div class="flex space-x-3">
@@ -554,7 +554,7 @@
             </div>
         </div>
         <div class="border-t pt-8 flex flex-col md:flex-row justify-between items-center" style="border-color:rgba(249,115,22,0.1)">
-            <p class="text-gray-600 text-sm">&copy; 2026 TasBagus. All rights reserved.</p>
+            <p class="text-gray-600 text-sm">&copy; 2026 Tas NoonaHnB. All rights reserved.</p>
             <p class="text-gray-600 text-sm mt-2 md:mt-0">Made with ❤️ for fashion lovers</p>
         </div>
     </div>

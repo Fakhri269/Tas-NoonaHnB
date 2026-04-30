@@ -1,5 +1,5 @@
 <x-main-layout>
-    <x-slot name="title">Dashboard - TasBagus</x-slot>
+    <x-slot name="title">Dashboard - Tas NoonaHnB</x-slot>
 
     <!-- Hero -->
     <section class="hero-gradient py-16 relative">

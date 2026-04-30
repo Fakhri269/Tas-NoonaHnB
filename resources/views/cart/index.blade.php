@@ -1,5 +1,5 @@
 <x-main-layout>
-    <x-slot name="title">Keranjang Belanja - TasBagus</x-slot>
+    <x-slot name="title">Keranjang Belanja - Tas NoonaHnB</x-slot>
 
     <section class="hero-gradient py-14 relative">
         <div class="absolute top-0 right-0 w-64 h-64 float-animation" style="background:radial-gradient(circle,rgba(249,115,22,0.07) 0%,transparent 70%);border-radius:50%;"></div>
@@ -171,7 +171,7 @@
                 btn.removeAttribute('form');
                 btn.innerHTML = 'Checkout Reseller via WhatsApp (' + qty + ')';
                 btn.className = 'w-full text-center py-4 rounded-xl font-bold text-lg text-white shadow-lg transition-colors bg-[#25D366] hover:bg-[#128C7E]';
-                const msg = encodeURIComponent(`Halo Admin, saya tertarik menjadi Reseller TasBagus. Saya ingin checkout keranjang saya dengan total ${qty} buah tas, subtotal ${formatRp(total)}.`);
+                const msg = encodeURIComponent(`Halo Admin, saya tertarik menjadi Reseller Tas NoonaHnB. Saya ingin checkout keranjang saya dengan total ${qty} buah tas, subtotal ${formatRp(total)}.`);
                 btn.onclick = () => {
                     window.open(`https://wa.me/6289616392586?text=${msg}`, '_blank');
                 };

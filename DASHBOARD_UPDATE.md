@@ -1,4 +1,4 @@
-# Dashboard & Layout Update - TasBagus
+# Dashboard & Layout Update - Tas NoonaHnB
 
 ## ✅ Perubahan yang Dilakukan
 
@@ -122,7 +122,7 @@ Product::where('is_featured', true)->where('is_active', true)->take(4)->get()
 
 ```blade
 <x-main-layout>
-    <x-slot name="title">Judul Halaman - TasBagus</x-slot>
+    <x-slot name="title">Judul Halaman - Tas NoonaHnB</x-slot>
 
     <!-- Content di sini -->
     <section class="py-12">

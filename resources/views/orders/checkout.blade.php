@@ -1,5 +1,5 @@
 <x-main-layout>
-    <x-slot name="title">Checkout - TasBagus</x-slot>
+    <x-slot name="title">Checkout - Tas NoonaHnB</x-slot>
 
     <!-- Header -->
     <section class="hero-gradient text-white py-14 relative">
