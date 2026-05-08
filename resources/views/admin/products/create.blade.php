@@ -68,10 +68,13 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-400 mb-2">Foto Produk Utama *</label>
                         <div class="border-2 border-dashed border-gray-700 bg-gray-800/50 rounded-lg p-6 text-center hover:border-orange-500 transition cursor-pointer relative">
-                            <input type="file" name="image" required accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer">
-                            <svg class="mx-auto h-12 w-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <p class="mt-2 text-sm text-gray-400">Klik atau drag gambar ke sini.</p>
-                            <p class="text-xs text-gray-500 mt-1">Maks. 2MB (JPG, PNG, WEBP)</p>
+                            <input type="file" name="image" required accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" onchange="previewImage(this, 'create')">
+                            <div id="placeholder-create">
+                                <svg class="mx-auto h-12 w-12 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                                <p class="mt-2 text-sm text-gray-400">Klik atau drag gambar ke sini.</p>
+                                <p class="text-xs text-gray-500 mt-1">Maks. 2MB (JPG, PNG, WEBP)</p>
+                            </div>
+                            <img id="preview-create" src="" class="hidden mx-auto h-32 object-contain rounded-lg">
                         </div>
                         @error('image') <span class="text-red-400 text-xs mt-1 block">{{ $message }}</span> @enderror
                     </div>
@@ -120,4 +123,27 @@
             </div>
         </form>
     </div>
+
+    <script>
+        function previewImage(input, type) {
+            const preview = document.getElementById('preview-' + type);
+            const placeholder = document.getElementById('placeholder-' + type);
+            
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.classList.remove('hidden');
+                    if (placeholder) placeholder.classList.add('hidden');
+                }
+                
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                preview.src = '';
+                preview.classList.add('hidden');
+                if (placeholder) placeholder.classList.remove('hidden');
+            }
+        }
+    </script>
 </x-admin-layout>

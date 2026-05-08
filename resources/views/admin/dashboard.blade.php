@@ -300,6 +300,16 @@
         </div>
     </section>
 
+    <!-- Hidden data container for charts -->
+    <div id="chart-data" 
+        data-daily-labels="{{ json_encode($dailyLabels) }}"
+        data-daily-revenue="{{ json_encode($dailyRevenue) }}"
+        data-daily-orders="{{ json_encode($dailyOrders) }}"
+        data-monthly-labels="{{ json_encode($monthlyLabels) }}"
+        data-monthly-revenue="{{ json_encode($monthlyRevenue) }}"
+        data-monthly-orders="{{ json_encode($monthlyOrders) }}"
+        style="display:none;"></div>
+
     @push('scripts')
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script>
@@ -307,13 +317,14 @@
         Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
         Chart.defaults.font.family = 'Poppins, sans-serif';
 
-        // Data passed from PHP
-        var dailyLabels    = JSON.parse('{{ json_encode($dailyLabels) }}');
-        var dailyRevenue   = JSON.parse('{{ json_encode($dailyRevenue) }}');
-        var dailyOrders    = JSON.parse('{{ json_encode($dailyOrders) }}');
-        var monthlyLabels  = JSON.parse('{{ json_encode($monthlyLabels) }}');
-        var monthlyRevenue = JSON.parse('{{ json_encode($monthlyRevenue) }}');
-        var monthlyOrders  = JSON.parse('{{ json_encode($monthlyOrders) }}');
+        // Data passed from PHP - read from data attributes
+        const chartDataEl = document.getElementById('chart-data');
+        var dailyLabels    = JSON.parse(chartDataEl.getAttribute('data-daily-labels'));
+        var dailyRevenue   = JSON.parse(chartDataEl.getAttribute('data-daily-revenue'));
+        var dailyOrders    = JSON.parse(chartDataEl.getAttribute('data-daily-orders'));
+        var monthlyLabels  = JSON.parse(chartDataEl.getAttribute('data-monthly-labels'));
+        var monthlyRevenue = JSON.parse(chartDataEl.getAttribute('data-monthly-revenue'));
+        var monthlyOrders  = JSON.parse(chartDataEl.getAttribute('data-monthly-orders'));
 
         function fmtRp(v) {
             if (v >= 1000000) return 'Rp ' + (v / 1000000).toFixed(1) + 'jt';

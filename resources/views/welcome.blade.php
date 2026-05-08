@@ -90,9 +90,8 @@
 <!-- ===== NAVBAR ===== -->
 <nav class="navbar fixed w-full top-0 z-50">
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-        <a href="{{ route('home') }}" class="flex items-center space-x-2">
-            <div class="w-9 h-9 rounded-lg btn-orange flex items-center justify-center font-bold text-lg">T</div>
-            <span class="text-xl font-bold text-white">Tas <span style="color:#f97316">NoonaHnB</span></span>
+        <a href="{{ route('home') }}" class="flex items-center space-x-2 group">
+            <img src="{{ asset('logo.png') }}" alt="Noona H&B Logo" style="mix-blend-mode: screen; filter: invert(1) grayscale(1) brightness(1.5);" class="h-12 w-auto object-contain transition-transform group-hover:scale-105">
         </a>
 
         <div class="hidden md:flex items-center space-x-8">
@@ -459,7 +458,7 @@
                 <div class="divider mb-8"></div>
                 <div class="space-y-6">
                     @foreach([
-                        ['M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z','Jl. Raya Tas No. 123, Jakarta Selatan 12345','Alamat'],
+                        ['M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z','Jl. Raya Laladon No. 82, Bogor 6110','Alamat'],
                         ['M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z','info@tasnoonahnb.com','Email'],
                     ] as $c)
                     <div class="flex items-start space-x-4">
@@ -511,9 +510,8 @@
     <div class="max-w-7xl mx-auto px-6">
         <div class="grid md:grid-cols-4 gap-10 mb-12">
             <div class="md:col-span-1">
-                <div class="flex items-center space-x-2 mb-4">
-                    <div class="w-9 h-9 rounded-lg btn-orange flex items-center justify-center font-bold text-lg">T</div>
-                    <span class="text-xl font-bold text-white">Tas <span style="color:#f97316">NoonaHnB</span></span>
+                <div class="flex items-center space-x-2 mb-4 group cursor-default">
+                    <img src="{{ asset('logo.png') }}" alt="Noona H&B Logo" style="mix-blend-mode: screen; filter: invert(1) grayscale(1) brightness(1.5);" class="h-14 w-auto object-contain">
                 </div>
                 <p class="text-gray-500 text-sm leading-relaxed mb-6">Toko tas online terpercaya dengan koleksi premium dan harga terjangkau untuk semua kalangan.</p>
                 <div class="flex space-x-3">

@@ -3,7 +3,7 @@
 
     <!-- Header with Modern Design -->
     <section class="hero-gradient text-white py-16 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full -mr-32 -mt-32 float-animation"></div>
+        <div class="absolute top-0 right-0 w-64 h-64 bg-orange-500 opacity-5 rounded-full -mr-32 -mt-32 float-animation"></div>
         <div class="container mx-auto px-6 relative z-10">
             <div class="flex items-center space-x-3 mb-4">
                 <a href="{{ route('orders.index') }}" class="text-white hover:text-gray-200 transition-all duration-300 hover:scale-110">
@@ -24,7 +24,7 @@
         <div class="container mx-auto px-6">
             <!-- Success Message -->
             @if(session('success'))
-                <div class="glass-effect border border-green-400 text-green-700 px-6 py-4 rounded-2xl mb-6 shadow-lg">
+                <div class="alert-success border border-green-500 px-6 py-4 rounded-2xl mb-6 shadow-lg">
                     <div class="flex items-center">
                         <div class="bg-green-500 p-2 rounded-full mr-3">
                             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -40,13 +40,13 @@
                 <!-- Left Column - Order Info -->
                 <div class="lg:col-span-2 space-y-6">
                     <!-- Order Status -->
-                    <div class="glass-effect rounded-2xl shadow-xl p-6 border border-purple-100">
+                    <div class="card-dark p-6">
                         <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-2xl font-bold gradient-text">Status Pesanan</h2>
+                            <h2 class="text-2xl font-bold text-white">Status Pesanan</h2>
                             <span class="px-4 py-2 rounded-full text-sm font-semibold
-                                @if($order->status === 'pending') bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-800 border border-yellow-300
+                                @if($order->status === 'pending') bg-gradient-to-r from-yellow-100 to-yellow-200 text-yellow-400 border border-yellow-300
                                 @elseif($order->status === 'processing') bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 border border-blue-300
-                                @elseif($order->status === 'shipped') bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 border border-purple-300
+                                @elseif($order->status === 'shipped') bg-gradient-to-r from-orange-100 to-orange-200 text-orange-800 border border-orange-300
                                 @elseif($order->status === 'delivered') bg-gradient-to-r from-green-100 to-green-200 text-green-800 border border-green-300
                                 @elseif($order->status === 'cancelled') bg-gradient-to-r from-red-100 to-red-200 text-red-800 border border-red-300
                                 @endif">
@@ -68,8 +68,8 @@
                                     </svg>
                                 </div>
                                 <div class="ml-4">
-                                    <p class="font-semibold text-gray-800">Pesanan Dibuat</p>
-                                    <p class="text-sm text-gray-600">{{ $order->created_at->format('d M Y, H:i') }}</p>
+                                    <p class="font-semibold text-white">Pesanan Dibuat</p>
+                                    <p class="text-sm text-gray-400">{{ $order->created_at->format('d M Y, H:i') }}</p>
                                 </div>
                             </div>
 
@@ -81,8 +81,8 @@
                                     </svg>
                                 </div>
                                 <div class="ml-4">
-                                    <p class="font-semibold text-gray-800">Pembayaran Dikonfirmasi</p>
-                                    <p class="text-sm text-gray-600">Pesanan sedang diproses</p>
+                                    <p class="font-semibold text-white">Pembayaran Dikonfirmasi</p>
+                                    <p class="text-sm text-gray-400">Pesanan sedang diproses</p>
                                 </div>
                             </div>
                             @endif
@@ -95,8 +95,8 @@
                                     </svg>
                                 </div>
                                 <div class="ml-4">
-                                    <p class="font-semibold text-gray-800">Pesanan Berhasil</p>
-                                    <p class="text-sm text-gray-600">Pesanan sedang menuju perjalanan Anda</p>
+                                    <p class="font-semibold text-white">Pesanan Berhasil</p>
+                                    <p class="text-sm text-gray-400">Pesanan sedang menuju perjalanan Anda</p>
                                 </div>
                             </div>
                             @endif
@@ -109,8 +109,8 @@
                                     </svg>
                                 </div>
                                 <div class="ml-4">
-                                    <p class="font-semibold text-gray-800">Pesanan Diterima</p>
-                                    <p class="text-sm text-gray-600">Terima kasih atas pesanan Anda!</p>
+                                    <p class="font-semibold text-white">Pesanan Diterima</p>
+                                    <p class="text-sm text-gray-400">Terima kasih atas pesanan Anda!</p>
                                 </div>
                             </div>
                             @endif
@@ -145,45 +145,45 @@
                     </div>
 
                     <!-- Order Items -->
-                    <div class="glass-effect rounded-2xl shadow-xl p-6 border border-purple-100">
-                        <h2 class="text-2xl font-bold mb-6 gradient-text">Produk yang Dipesan</h2>
+                    <div class="card-dark p-6">
+                        <h2 class="text-2xl font-bold mb-6 text-white">Produk yang Dipesan</h2>
                         
                         <div class="space-y-4">
                             @foreach($order->items as $item)
-                            <div class="flex items-center space-x-4 pb-4 border-b border-purple-100 last:border-0">
+                            <div class="flex items-center space-x-4 pb-4 border-b border-gray-800 last:border-0">
                                 <img src="{{ $item->product->image ?? 'https://via.placeholder.com/80' }}" alt="{{ $item->product_name }}" class="w-20 h-20 object-cover rounded-xl shadow-md">
                                 <div class="flex-1">
-                                    <h3 class="font-semibold text-lg text-gray-800">{{ $item->product_name }}</h3>
-                                    <p class="text-gray-600">{{ $item->quantity }} x Rp {{ number_format($item->price, 0, ',', '.') }}</p>
+                                    <h3 class="font-semibold text-lg text-white">{{ $item->product_name }}</h3>
+                                    <p class="text-gray-400">{{ $item->quantity }} x Rp {{ number_format($item->price, 0, ',', '.') }}</p>
                                 </div>
-                                <p class="font-bold text-lg gradient-text">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</p>
+                                <p class="font-bold text-lg text-white">Rp {{ number_format($item->subtotal, 0, ',', '.') }}</p>
                             </div>
                             @endforeach
                         </div>
                     </div>
 
                     <!-- Shipping Information -->
-                    <div class="glass-effect rounded-2xl shadow-xl p-6 border border-purple-100">
-                        <h2 class="text-2xl font-bold mb-6 gradient-text">Informasi Pengiriman</h2>
+                    <div class="card-dark p-6">
+                        <h2 class="text-2xl font-bold mb-6 text-white">Informasi Pengiriman</h2>
                         
                         <div class="grid md:grid-cols-2 gap-4">
-                            <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200">
-                                <p class="text-sm text-purple-600 font-semibold mb-1">Nama Penerima</p>
-                                <p class="font-semibold text-gray-800">{{ $order->shipping_name }}</p>
+                            <div class="bg-[#1e2d3d] p-4 rounded-xl border border-gray-700">
+                                <p class="text-sm text-gray-400 font-semibold mb-1">Nama Penerima</p>
+                                <p class="font-semibold text-white">{{ $order->shipping_name }}</p>
                             </div>
-                            <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200">
-                                <p class="text-sm text-purple-600 font-semibold mb-1">Nomor Telepon</p>
-                                <p class="font-semibold text-gray-800">{{ $order->shipping_phone }}</p>
+                            <div class="bg-[#1e2d3d] p-4 rounded-xl border border-gray-700">
+                                <p class="text-sm text-gray-400 font-semibold mb-1">Nomor Telepon</p>
+                                <p class="font-semibold text-white">{{ $order->shipping_phone }}</p>
                             </div>
-                            <div class="md:col-span-2 bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200">
-                                <p class="text-sm text-purple-600 font-semibold mb-1">Alamat Lengkap</p>
-                                <p class="font-semibold text-gray-800">{{ $order->shipping_address }}</p>
-                                <p class="font-semibold text-gray-800">{{ $order->shipping_city }}, {{ $order->shipping_province }} {{ $order->shipping_postal_code }}</p>
+                            <div class="md:col-span-2 bg-[#1e2d3d] p-4 rounded-xl border border-gray-700">
+                                <p class="text-sm text-gray-400 font-semibold mb-1">Alamat Lengkap</p>
+                                <p class="font-semibold text-white">{{ $order->shipping_address }}</p>
+                                <p class="font-semibold text-white">{{ $order->shipping_city }}, {{ $order->shipping_province }} {{ $order->shipping_postal_code }}</p>
                             </div>
                             @if($order->notes)
-                            <div class="md:col-span-2 bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200">
-                                <p class="text-sm text-purple-600 font-semibold mb-1">Catatan</p>
-                                <p class="font-semibold text-gray-800">{{ $order->notes }}</p>
+                            <div class="md:col-span-2 bg-[#1e2d3d] p-4 rounded-xl border border-gray-700">
+                                <p class="text-sm text-gray-400 font-semibold mb-1">Catatan</p>
+                                <p class="font-semibold text-white">{{ $order->notes }}</p>
                             </div>
                             @endif
                         </div>
@@ -193,17 +193,17 @@
                 <!-- Right Column - Payment & Summary -->
                 <div class="lg:col-span-1 space-y-6">
                     <!-- Payment Information -->
-                    <div class="glass-effect rounded-2xl shadow-xl p-6 border border-purple-100 sticky top-24">
-                        <h2 class="text-xl font-bold mb-4 gradient-text">Informasi Pembayaran</h2>
+                    <div class="card-dark p-6 sticky top-24">
+                        <h2 class="text-xl font-bold mb-4 text-white">Informasi Pembayaran</h2>
                         
                         <div class="space-y-4">
-                            <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200">
-                                <p class="text-sm text-purple-600 font-semibold mb-1">Metode Pembayaran</p>
-                                <p class="font-semibold text-lg text-gray-800">{{ $order->payment_method }}</p>
+                            <div class="bg-[#1e2d3d] p-4 rounded-xl border border-gray-700">
+                                <p class="text-sm text-gray-400 font-semibold mb-1">Metode Pembayaran</p>
+                                <p class="font-semibold text-lg text-white">{{ $order->payment_method }}</p>
                             </div>
                             
-                            <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-xl border border-purple-200">
-                                <p class="text-sm text-purple-600 font-semibold mb-2">Status Pembayaran</p>
+                            <div class="bg-[#1e2d3d] p-4 rounded-xl border border-gray-700">
+                                <p class="text-sm text-gray-400 font-semibold mb-2">Status Pembayaran</p>
                                 <span class="inline-block px-3 py-1 rounded-full text-sm font-semibold
                                     @if($order->payment_status === 'unpaid') bg-gradient-to-r from-red-100 to-red-200 text-red-800 border border-red-300
                                     @elseif($order->payment_status === 'paid') bg-gradient-to-r from-green-100 to-green-200 text-green-800 border border-green-300
@@ -216,8 +216,8 @@
                         </div>
 
                         @if($order->payment_status === 'unpaid' && ($order->status === 'pending' || $order->payment_method === 'COD'))
-                        <div class="mt-6 p-4 bg-gradient-to-br from-yellow-50 to-yellow-100 border border-yellow-300 rounded-xl">
-                            <p class="font-semibold text-yellow-800 mb-3 flex items-center">
+                        <div class="mt-6 p-4 bg-[rgba(234,179,8,0.1)] border border-[rgba(234,179,8,0.3)] rounded-xl">
+                            <p class="font-semibold text-yellow-400 mb-3 flex items-center">
                                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                                 </svg>
@@ -225,33 +225,33 @@
                             </p>
                             
                             @if($order->payment_method === 'COD')
-                                <p class="text-sm text-yellow-700">Pembayaran akan dilakukan saat barang diterima. Pastikan menyiapkan uang pas.</p>
+                                <p class="text-sm text-yellow-200">Pembayaran akan dilakukan saat barang diterima. Pastikan menyiapkan uang pas.</p>
 
                             @elseif($order->payment_method === 'DANA')
-                                <div class="text-sm text-yellow-700 space-y-2">
+                                <div class="text-sm text-yellow-200 space-y-2">
                                     <p>Transfer ke nomor DANA: <strong>0812-3456-7890</strong></p>
                                     <p>a.n. Tas NoonaHnB</p>
                                     <p class="mt-2">Setelah transfer, konfirmasi pembayaran melalui WhatsApp: <strong>0812-3456-7890</strong></p>
                                 </div>
                             @elseif($order->payment_method === 'QRIS')
-                                <div class="bg-white p-6 rounded-2xl border-2 border-orange-200 shadow-md text-center mt-4">
-                                    <h3 class="font-extrabold text-xl text-gray-800 mb-2">Pindai Kode QRIS</h3>
-                                    <p class="text-gray-600 text-sm mb-6">Gunakan aplikasi DANA, OVO, GoPay, ShopeePay, atau m-Banking pilihan Anda.</p>
+                                <div class="bg-[#1e2d3d] p-6 rounded-2xl border border-gray-700 shadow-md text-center mt-4">
+                                    <h3 class="font-extrabold text-xl text-white mb-2">Pindai Kode QRIS</h3>
+                                    <p class="text-gray-400 text-sm mb-6">Gunakan aplikasi DANA, OVO, GoPay, ShopeePay, atau m-Banking pilihan Anda.</p>
                                     
                                     @if(\Storage::disk('public')->exists('settings/qris.png'))
-                                        <div class="bg-gray-50 p-2 rounded-2xl inline-block border-[3px] border-orange-400 shadow-lg mb-4">
+                                        <div class="bg-white p-2 rounded-2xl inline-block border-2 border-orange-500 shadow-lg mb-4">
                                             <img src="{{ asset('storage/settings/qris.png') }}?v={{ time() }}" alt="QRIS Penjual" class="w-full max-w-sm h-auto mx-auto object-contain rounded-xl">
                                         </div>
                                     @else
-                                        <div class="bg-yellow-200 text-yellow-800 p-4 rounded-lg border border-yellow-400 font-semibold italic text-center mb-4">QRIS belum dipasang oleh Admin. Harap hubungi WhatsApp: 0812-3456-7890.</div>
+                                        <div class="bg-yellow-200 text-yellow-400 p-4 rounded-lg border border-yellow-400 font-semibold italic text-center mb-4">QRIS belum dipasang oleh Admin. Harap hubungi WhatsApp: 0812-3456-7890.</div>
                                     @endif
                                     
-                                    <div class="flex justify-center items-center mt-4 border-t border-gray-100 pt-4">
-                                        <p class="text-sm font-semibold text-gray-700">Setelah transfer sukses, konfirmasi ke WhatsApp: <span class="text-orange-500">0812-3456-7890</span></p>
+                                    <div class="flex justify-center items-center mt-4 border-t border-gray-700 pt-4">
+                                        <p class="text-sm font-semibold text-gray-300">Setelah transfer sukses, konfirmasi ke WhatsApp: <span class="text-orange-500">0812-3456-7890</span></p>
                                     </div>
                                 </div>
                             @elseif($order->payment_method === 'GoPay')
-                                <div class="text-sm text-yellow-700 space-y-2">
+                                <div class="text-sm text-yellow-200 space-y-2">
                                     <p>Transfer ke nomor GoPay: <strong>0812-3456-7890</strong></p>
                                     <p>a.n. Tas NoonaHnB</p>
                                     <p class="mt-2">Setelah transfer, konfirmasi pembayaran melalui WhatsApp: <strong>0812-3456-7890</strong></p>
@@ -261,35 +261,35 @@
                         @endif
 
                         <!-- Order Summary -->
-                        <div class="mt-6 pt-6 border-t border-purple-200">
-                            <h3 class="font-bold mb-4 text-gray-800">Ringkasan Pesanan</h3>
+                        <div class="mt-6 pt-6 border-t border-gray-800">
+                            <h3 class="font-bold mb-4 text-white">Ringkasan Pesanan</h3>
                             
                             <div class="space-y-3">
                                 <div class="flex justify-between text-sm">
-                                    <span class="text-gray-600">Subtotal</span>
-                                    <span class="font-semibold text-gray-800">Rp {{ number_format($order->subtotal, 0, ',', '.') }}</span>
+                                    <span class="text-gray-400">Subtotal</span>
+                                    <span class="font-semibold text-white">Rp {{ number_format($order->subtotal, 0, ',', '.') }}</span>
                                 </div>
                                 
                                 <div class="flex justify-between text-sm">
-                                    <span class="text-gray-600">Ongkir</span>
+                                    <span class="text-gray-400">Ongkir</span>
                                     @if($order->shipping_cost == 0)
                                         <span class="font-semibold text-green-600">GRATIS</span>
                                     @else
-                                        <span class="font-semibold text-gray-800">Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
+                                        <span class="font-semibold text-white">Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}</span>
                                     @endif
                                 </div>
 
                                 @if($order->discount > 0)
                                 <div class="flex justify-between text-sm">
-                                    <span class="text-gray-600">Diskon</span>
+                                    <span class="text-gray-400">Diskon</span>
                                     <span class="font-semibold text-green-600">- Rp {{ number_format($order->discount, 0, ',', '.') }}</span>
                                 </div>
                                 @endif
 
-                                <div class="border-t border-purple-200 pt-3">
+                                <div class="border-t border-gray-800 pt-3">
                                     <div class="flex justify-between items-center">
-                                        <span class="text-lg font-bold text-gray-800">Total</span>
-                                        <span class="text-2xl font-bold gradient-text">Rp {{ number_format($order->total, 0, ',', '.') }}</span>
+                                        <span class="text-lg font-bold text-white">Total</span>
+                                        <span class="text-2xl font-bold text-white">Rp {{ number_format($order->total, 0, ',', '.') }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -303,10 +303,10 @@
                                 </svg>
                                 <span>Cetak Struk</span>
                             </button>
-                            <a href="{{ route('orders.index') }}" class="block w-full text-center btn-gradient text-white py-3 rounded-xl hover:shadow-xl transition-all duration-300 hover:scale-105 font-semibold">
+                            <a href="{{ route('orders.index') }}" class="block w-full text-center btn-orange text-white py-3 rounded-xl hover:shadow-xl transition-all duration-300 hover:scale-105 font-semibold">
                                 Lihat Semua Pesanan
                             </a>
-                            <a href="{{ route('products.index') }}" class="block w-full text-center border-2 border-purple-600 text-purple-600 py-3 rounded-xl hover:bg-purple-50 transition-all duration-300 hover:scale-105 font-semibold">
+                            <a href="{{ route('products.index') }}" class="block w-full text-center border-2 border-orange-600 text-gray-400 py-3 rounded-xl hover:bg-orange-50 transition-all duration-300 hover:scale-105 font-semibold">
                                 Belanja Lagi
                             </a>
                         </div>
@@ -434,7 +434,7 @@
                 <p style="margin: 5px 0;">Terima kasih atas pembelian Anda!</p>
                 <p style="margin: 5px 0;">Barang yang sudah dibeli tidak dapat dikembalikan</p>
                 <p style="margin: 10px 0 5px 0; font-weight: bold;">www.tasnoonahnb.com</p>
-                <p style="margin: 5px 0; font-size: 10px;">{{ now()->format('d/m/Y H:i:s') }}</p>
+                <p style="margin: 5px 0; font-size: 10px;" id="receipt-print-time">{{ now()->format('d/m/Y H:i:s') }} WIB</p>
             </div>
         </div>
     </div>
@@ -442,6 +442,16 @@
     @push('scripts')
     <script>
         function printReceipt() {
+            // Update the receipt print time to current local time
+            var now = new Date();
+            var timeStr = ("0" + now.getDate()).slice(-2) + "/" + 
+                          ("0" + (now.getMonth() + 1)).slice(-2) + "/" + 
+                          now.getFullYear() + " " + 
+                          ("0" + now.getHours()).slice(-2) + ":" + 
+                          ("0" + now.getMinutes()).slice(-2) + ":" + 
+                          ("0" + now.getSeconds()).slice(-2);
+            document.getElementById('receipt-print-time').innerText = timeStr + ' WIB';
+
             // Get the receipt content
             var receiptContent = document.getElementById('receipt').innerHTML;
             

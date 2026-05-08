@@ -47,7 +47,18 @@
 
         /* Orange text */
         .text-orange { color: var(--orange); }
+        .text-orange-400 { color: var(--orange) !important; }
+        .hover\:text-orange-400:hover { color: var(--orange) !important; }
         .gradient-text { color: var(--orange); }
+
+        /* Orange brand utilities */
+        .bg-orange-500 { background-color: var(--orange) !important; }
+        .border-orange-500 { border-color: var(--orange) !important; }
+        .hover\:border-orange-500:hover { border-color: var(--orange) !important; }
+        .focus\:border-orange-500:focus { border-color: var(--orange) !important; }
+        .focus\:ring-orange-500:focus { box-shadow: 0 0 0 3px rgba(249,115,22,0.15) !important; }
+        .hover\:bg-orange-500\/10:hover { background-color: rgba(249,115,22,0.1) !important; }
+        .hover\:shadow-orange-500\/30:hover { box-shadow: 0 30px 50px rgba(249,115,22,0.3) !important; }
 
         /* Section divider */
         .divider { width:50px; height:3px; background:linear-gradient(90deg,var(--orange),transparent); border-radius:2px; }
@@ -97,8 +108,7 @@
     <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
         <!-- Logo -->
         <a href="{{ route('home') }}" class="flex items-center space-x-2 group">
-            <div class="w-9 h-9 rounded-lg btn-orange flex items-center justify-center font-bold text-lg shadow-lg">T</div>
-            <span class="text-xl font-bold text-white">Tas <span class="text-orange">NoonaHnB</span></span>
+            <img src="{{ asset('logo.png') }}" alt="Noona H&B Logo" style="mix-blend-mode: screen; filter: invert(1) grayscale(1) brightness(1.5);" class="h-12 w-auto object-contain transition-transform group-hover:scale-105">
         </a>
 
         <!-- Desktop Menu -->
@@ -248,9 +258,8 @@
     <div class="max-w-7xl mx-auto px-6">
         <div class="grid md:grid-cols-4 gap-10 mb-10">
             <div>
-                <div class="flex items-center space-x-2 mb-4">
-                    <div class="w-9 h-9 rounded-lg btn-orange flex items-center justify-center font-bold text-lg">T</div>
-                    <span class="text-xl font-bold text-white">Tas <span class="text-orange">NoonaHnB</span></span>
+                <div class="flex items-center space-x-2 mb-4 group cursor-default">
+                    <img src="{{ asset('logo.png') }}" alt="Noona H&B Logo" style="mix-blend-mode: screen; filter: invert(1) grayscale(1) brightness(1.5);" class="h-14 w-auto object-contain">
                 </div>
                 <p class="text-gray-500 text-sm leading-relaxed">Toko tas online terpercaya dengan koleksi premium dan harga terjangkau.</p>
             </div>

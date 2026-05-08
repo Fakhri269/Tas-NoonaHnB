@@ -47,8 +47,11 @@
         <!-- Logo -->
         <div class="flex items-center justify-center h-16 border-b border-[#1e2d3d]">
             <a href="{{ route('admin.dashboard') }}" class="flex items-center space-x-2">
-                <div class="w-8 h-8 rounded-lg btn-orange flex items-center justify-center font-bold text-base shadow-lg">T</div>
-                <span class="text-lg font-bold text-white">Admin<span style="color:var(--orange)">Panel</span></span>
+                <style>
+                    .logo-adaptive { mix-blend-mode: multiply; }
+                    .dark .logo-adaptive, [data-theme="dark"] .logo-adaptive { mix-blend-mode: screen; filter: invert(1) grayscale(1) brightness(1.5); }
+                </style>
+                <img src="{{ asset('logo.png') }}" alt="Noona H&B Logo" class="h-10 w-auto object-contain logo-adaptive" style="mix-blend-mode: screen; filter: invert(1) grayscale(1) brightness(1.5);">
             </a>
         </div>
 

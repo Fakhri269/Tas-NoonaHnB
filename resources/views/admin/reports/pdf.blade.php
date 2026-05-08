@@ -75,7 +75,7 @@
     @endif
 
     <div class="footer">
-        <p>Dicetak pada: {{ date('d/m/Y H:i') }} &copy; {{ date('Y') }} Tas NoonaHnB</p>
+        <p>Dicetak pada: {{ now()->format('d/m/Y H:i') }} WIB &copy; {{ date('Y') }} Tas NoonaHnB</p>
     </div>
 
 </body>
