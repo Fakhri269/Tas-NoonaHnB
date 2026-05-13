@@ -70,10 +70,10 @@
                                 </span>
                             </div>
                             <div id="free-shipping-msg" class="px-3 py-2 rounded-xl text-xs font-medium" style="background: rgba(249,115,22,0.1); border: 1px solid rgba(249,115,22,0.2); color: #fdba74;">
-                                @if($subtotal >= 500000)
+                                @if($subtotal >= 200000)
                                     🎉 Selamat! Anda mendapat gratis ongkir
                                 @else
-                                    💡 Belanja Rp <span id="sum-lacking">{{ number_format(500000 - $subtotal, 0, ',', '.') }}</span> lagi untuk gratis ongkir
+                                    💡 Belanja Rp <span id="sum-lacking">{{ number_format(200000 - $subtotal, 0, ',', '.') }}</span> lagi untuk gratis ongkir
                                 @endif
                             </div>
                         </div>
@@ -122,7 +122,7 @@
             }
 
             let shipping = 0;
-            if (subtotal > 0 && subtotal < 500000) shipping = 50000;
+            if (subtotal > 0 && subtotal < 200000) shipping = 50000;
 
             let total = subtotal - discount + shipping;
 
@@ -151,7 +151,7 @@
             }
 
             const freeMsg = document.getElementById('free-shipping-msg');
-            if (subtotal >= 500000 || subtotal === 0) {
+            if (subtotal >= 200000 || subtotal === 0) {
                 freeMsg.style.background = 'rgba(34,197,94,0.1)';
                 freeMsg.style.borderColor = 'rgba(34,197,94,0.2)';
                 freeMsg.style.color = '#86efac';
@@ -160,7 +160,7 @@
                 freeMsg.style.background = 'rgba(249,115,22,0.1)';
                 freeMsg.style.borderColor = 'rgba(249,115,22,0.2)';
                 freeMsg.style.color = '#fdba74';
-                freeMsg.innerHTML = '💡 Belanja ' + formatRp(500000 - subtotal) + ' lagi untuk gratis ongkir';
+                freeMsg.innerHTML = '💡 Belanja ' + formatRp(200000 - subtotal) + ' lagi untuk gratis ongkir';
             }
 
             document.getElementById('sum-total').innerText = formatRp(total);

@@ -10,7 +10,7 @@
     </div>
 
     <div class="p-6">
-        <form action="{{ route('admin.products.update', $product->id) }}" method="POST" enctype="multipart/form-data" class="card-dark overflow-hidden">
+        <form action="{{ route('admin.products.update', $product->slug) }}" method="POST" enctype="multipart/form-data" class="card-dark overflow-hidden">
             @csrf
             @method('PUT')
             

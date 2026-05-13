@@ -164,7 +164,7 @@
                                     @endif
                                 </div>
 
-                                @if($subtotal >= 500000)
+                                @if($subtotal >= 200000)
                                     <div class="mt-3 px-3 py-2 bg-[rgba(34,197,94,0.1)] border border-[rgba(34,197,94,0.2)] text-[#86efac] rounded-lg text-xs font-semibold flex items-center justify-center space-x-2">
                                         <span>🎉 Selamat, Anda mendapat gratis ongkir!</span>
                                     </div>

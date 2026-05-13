@@ -34,6 +34,25 @@
         .dropdown-item:hover { background: rgba(249,115,22,0.08); color: var(--orange); }
         .alert-success { background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.3); color: #86efac; }
         .alert-error { background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+
+        /* Input */
+        .input-dark { background: var(--dark3); border: 1px solid rgba(255,255,255,0.08); color: #e2e8f0; transition: border-color 0.3s; }
+        .input-dark:focus { outline: none; border-color: var(--orange); box-shadow: 0 0 0 3px rgba(249,115,22,0.1); }
+        .input-dark::placeholder { color: #4b5563; }
+
+        /* Button Outline Orange */
+        .btn-outline-orange { border:2px solid var(--orange); color:var(--orange); transition:all 0.3s; }
+        .btn-outline-orange:hover { background:var(--orange); color:#fff; transform:translateY(-2px); }
+
+        /* Table */
+        .table-dark thead { background: rgba(249,115,22,0.08); }
+        .table-dark th { color: #f97316; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .table-dark tr { border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .table-dark tr:hover { background: rgba(249,115,22,0.04); }
+
+        /* Badges */
+        .badge-pending { background: rgba(234,179,8,0.15); color: #fde047; border: 1px solid rgba(234,179,8,0.3); }
+        .badge-delivered { background: rgba(34,197,94,0.15); color: #86efac; border: 1px solid rgba(34,197,94,0.3); }
     </style>
     @stack('styles')
 </head>
@@ -165,7 +184,7 @@
         </header>
 
         <!-- Main Content Area -->
-        <main class="flex-1 overflow-x-hidden overflow-y-auto bg-gray-900 min-h-screen">
+        <main class="flex-1 overflow-x-hidden overflow-y-auto min-h-screen" style="background: var(--dark)">
             <!-- Alert Messages -->
             @if(session('success'))
             <div class="max-w-7xl mx-auto px-6 mt-6">

@@ -1,35 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Owner;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Category;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class ReportController extends Controller
+class OwnerReportController extends Controller
 {
-    // ── Middleware check ───────────────────────────────────────
-    private function adminCheck()
-    {
-        /** @var User|null $user */
-        $user = Auth::user();
-        if (!$user || !$user->isAdmin()) {
-            abort(403, 'Akses ditolak.');
-        }
-    }
-
-    // ── Build query berdasarkan filter ─────────────────────────
     private function buildQuery(Request $request)
     {
         $query = Order::with(['user', 'items.product'])
             ->where('status', '!=', 'cancelled');
 
-        // Filter pencarian
         if ($request->filled('search')) {
             $s = $request->search;
             $query->where(function ($q) use ($s) {
@@ -39,7 +24,6 @@ class ReportController extends Controller
             });
         }
 
-        // Filter tanggal dari — sampai
         if ($request->filled('date_from')) {
             $query->whereDate('created_at', '>=', $request->date_from);
         }
@@ -47,7 +31,6 @@ class ReportController extends Controller
             $query->whereDate('created_at', '<=', $request->date_to);
         }
 
-        // Filter per bulan
         if ($request->filled('month') && $request->filled('year')) {
             $query->whereMonth('created_at', $request->month)
                   ->whereYear('created_at', $request->year);
@@ -55,12 +38,10 @@ class ReportController extends Controller
             $query->whereYear('created_at', $request->year);
         }
 
-        // Filter per tanggal tunggal
         if ($request->filled('single_date')) {
             $query->whereDate('created_at', $request->single_date);
         }
 
-        // Filter kategori
         if ($request->filled('category_id')) {
             $query->whereHas('items.product', function ($q) use ($request) {
                 $q->where('category_id', $request->category_id);
@@ -70,14 +51,10 @@ class ReportController extends Controller
         return $query->latest();
     }
 
-    // ── Halaman utama laporan ──────────────────────────────────
     public function index(Request $request)
     {
-        $this->adminCheck();
-
         $orders = $this->buildQuery($request)->paginate(20)->withQueryString();
 
-        // Ringkasan
         $allOrders  = $this->buildQuery($request)->get();
         $totalOrder = $allOrders->count();
         $totalOmzet = $allOrders->sum('total');
@@ -95,30 +72,25 @@ class ReportController extends Controller
             9=>'September',10=>'Oktober',11=>'November',12=>'Desember',
         ];
 
-        return view('admin.reports.index', compact(
+        return view('owner.reports.index', compact(
             'orders', 'totalOrder', 'totalOmzet', 'totalItem',
             'categories', 'years', 'monthNames'
         ));
     }
 
-    // ── Download laporan (HTML print / PDF) ────────────────────
-    public function printPdf(Request $request)
+    public function exportPdf(Request $request)
     {
-        $this->adminCheck();
-
         $orders = $this->buildQuery($request)->get();
 
         $totalOmzet = $orders->sum('total');
         $totalItem  = $orders->sum(fn($o) => $o->items->sum('quantity'));
 
-        $categories = Category::where('is_active', true)->orderBy('name')->get();
         $monthNames = [
             1=>'Januari',2=>'Februari',3=>'Maret',4=>'April',
             5=>'Mei',6=>'Juni',7=>'Juli',8=>'Agustus',
             9=>'September',10=>'Oktober',11=>'November',12=>'Desember',
         ];
 
-        // Judul laporan berdasarkan filter aktif
         $title = $this->buildReportTitle($request, $monthNames);
 
         return view('admin.reports.print', compact(
@@ -126,68 +98,6 @@ class ReportController extends Controller
         ));
     }
 
-    // ── Download CSV ───────────────────────────────────────────
-    public function printExcel(Request $request)
-    {
-        $this->adminCheck();
-
-        $orders = $this->buildQuery($request)->get();
-
-        $monthNames = [
-            1=>'Januari',2=>'Februari',3=>'Maret',4=>'April',
-            5=>'Mei',6=>'Juni',7=>'Juli',8=>'Agustus',
-            9=>'September',10=>'Oktober',11=>'November',12=>'Desember',
-        ];
-
-        $title    = $this->buildReportTitle($request, $monthNames);
-        $filename = 'laporan-' . now()->format('Ymd-His') . '.csv';
-
-        $headers = [
-            'Content-Type'        => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
-        ];
-
-        $callback = function () use ($orders, $title) {
-            $f = fopen('php://output', 'w');
-            // BOM untuk Excel agar bisa baca UTF-8
-            fputs($f, "\xEF\xBB\xBF");
-
-            fputcsv($f, ["LAPORAN PENJUALAN TASBAGUS"]);
-            fputcsv($f, [$title]);
-            fputcsv($f, ["Dicetak: " . now()->isoFormat('DD MMMM YYYY, HH:mm') . " WIB"]);
-            fputcsv($f, []);
-            fputcsv($f, [
-                'No', 'No. Pesanan', 'Tanggal', 'Pelanggan',
-                'Produk', 'Metode Bayar', 'Status Bayar',
-                'Subtotal', 'Ongkir', 'Total',
-            ]);
-
-            $no = 1;
-            foreach ($orders as $order) {
-                $produkList = $order->items->map(fn($i) => $i->product_name . ' (x' . $i->quantity . ')')->implode('; ');
-                fputcsv($f, [
-                    $no++,
-                    $order->order_number,
-                    $order->created_at->format('d/m/Y H:i'),
-                    $order->user->name ?? $order->shipping_name,
-                    $produkList,
-                    $order->payment_method,
-                    $order->payment_status === 'paid' ? 'Lunas' : 'Belum Bayar',
-                    $order->subtotal,
-                    $order->shipping_cost,
-                    $order->total,
-                ]);
-            }
-
-            fputcsv($f, []);
-            fputcsv($f, ['', '', '', '', '', '', 'TOTAL OMZET', '', '', $orders->sum('total')]);
-            fclose($f);
-        };
-
-        return response()->stream($callback, 200, $headers);
-    }
-
-    // ── Helper: judul laporan ──────────────────────────────────
     private function buildReportTitle(Request $request, array $monthNames): string
     {
         if ($request->filled('single_date')) {
@@ -202,9 +112,6 @@ class ReportController extends Controller
         }
         if ($request->filled('year')) {
             return 'Laporan Tahun ' . $request->year;
-        }
-        if ($request->filled('search')) {
-            return 'Laporan Pencarian: "' . $request->search . '"';
         }
         return 'Laporan Semua Penjualan';
     }

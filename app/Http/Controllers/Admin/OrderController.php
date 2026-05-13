@@ -4,13 +4,17 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
     public function index()
     {
-        if (!auth()->user()->isAdmin()) abort(403);
+        /** @var User|null $user */
+        $user = Auth::user();
+        if (!$user || !$user->isAdmin()) abort(403);
 
         $orders = Order::with('user')->latest()->paginate(10);
         return view('admin.orders.index', compact('orders'));
@@ -18,7 +22,9 @@ class OrderController extends Controller
 
     public function show(Order $order)
     {
-        if (!auth()->user()->isAdmin()) abort(403);
+        /** @var User|null $user */
+        $user = Auth::user();
+        if (!$user || !$user->isAdmin()) abort(403);
         
         $order->load(['user', 'items.product']);
         return view('admin.orders.show', compact('order'));
@@ -26,7 +32,9 @@ class OrderController extends Controller
 
     public function updateStatus(Request $request, Order $order)
     {
-        if (!auth()->user()->isAdmin()) abort(403);
+        /** @var User|null $user */
+        $user = Auth::user();
+        if (!$user || !$user->isAdmin()) abort(403);
 
         $request->validate([
             'status' => 'required|in:pending,processing,shipped,delivered,cancelled',

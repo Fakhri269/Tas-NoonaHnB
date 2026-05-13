@@ -97,6 +97,7 @@
                             id="password" 
                             type="password" 
                             name="password" 
+                            value="{{ old('password') }}"
                             required 
                             autocomplete="current-password"
                             class="w-full px-4 py-3 bg-[#0f1923] border border-gray-700 text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent transition"

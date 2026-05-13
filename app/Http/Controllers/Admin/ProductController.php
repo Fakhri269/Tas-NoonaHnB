@@ -5,15 +5,24 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+    private function authorizeAdmin(): void
+    {
+        /** @var User|null $user */
+        $user = Auth::user();
+        if (!$user || !$user->isAdmin()) abort(403);
+    }
+
     public function index()
     {
-        if (!auth()->user()->isAdmin()) abort(403);
+        $this->authorizeAdmin();
 
         $products = Product::with('category')->latest()->paginate(10);
         return view('admin.products.index', compact('products'));
@@ -21,7 +30,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        if (!auth()->user()->isAdmin()) abort(403);
+        $this->authorizeAdmin();
 
         $categories = Category::all();
         return view('admin.products.create', compact('categories'));
@@ -29,10 +38,10 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        if (!auth()->user()->isAdmin()) abort(403);
+        $this->authorizeAdmin();
 
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:products,name',
             'category_id' => 'required|exists:categories,id',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
@@ -83,7 +92,7 @@ class ProductController extends Controller
         if (!auth()->user()->isAdmin()) abort(403);
 
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:products,name,' . $product->id,
             'category_id' => 'required|exists:categories,id',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',

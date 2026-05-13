@@ -1,6 +1,10 @@
 <x-admin-layout>
     <x-slot name="title">Admin Dashboard - Tas NoonaHnB</x-slot>
 
+    @php
+        $fullMonthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
+    @endphp
+
     @push('styles')
     <style>
         .stat-card { transition: transform 0.3s, box-shadow 0.3s; }
@@ -10,6 +14,45 @@
         .rank-3 { background: #cd7f32; }
         .rank-other { background: rgba(255,255,255,0.08); }
         select option { background: #162030; color: #e2e8f0; }
+        select { background: #0d1722; border: 1px solid #374151; color: #e2e8f0; }
+        select:focus { border-color: #f97316; box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.5); }
+        .input-dark { background: #0d1722 !important; border: 1px solid #374151 !important; color: #e2e8f0 !important; }
+        .input-dark:focus { border-color: #f97316 !important; box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.5) !important; }
+        .table-dark { background: #162030; border-collapse: collapse; }
+        .table-dark th { background: #0d1722; color: #e2e8f0; font-weight: 600; border-bottom: 1px solid #374151; }
+        .table-dark td { background: #162030; color: #e2e8f0; border-bottom: 1px solid #374151; }
+        .table-dark tr:hover td { background: #0d1722; }
+        .badge-pending { background: rgba(249, 115, 22, 0.1); color: #f97316; border: 1px solid rgba(249, 115, 22, 0.3); }
+        .badge-processing { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .badge-shipped { background: rgba(34, 197, 94, 0.1); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); }
+        .badge-delivered { background: rgba(168, 85, 247, 0.1); color: #a855f7; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .badge-cancelled { background: rgba(239, 68, 68, 0.1); color: #ef4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+
+        /* Print Styles */
+        @media print {
+            body { background: white; color: black; }
+            .card-dark { background: white !important; border: 1px solid #ddd !important; page-break-inside: avoid; }
+            .btn-orange, .px-4.py-2.bg-blue-600, button, a { display: none !important; }
+            .stat-card { background: white !important; border: 1px solid #ddd !important; }
+            .px-6.py-6.border-b { display: none !important; }
+            .px-6.py-6.border-b.bg-\[#162030\] { display: none !important; }
+            table { width: 100% !important; }
+            table thead tr { border-bottom: 2px solid black !important; }
+            table tbody tr { border-bottom: 1px solid #ddd !important; }
+            table td, table th { padding: 8px !important; color: black !important; }
+            .text-white { color: black !important; }
+            .text-gray-300, .text-gray-400, .text-gray-500, .text-gray-600 { color: #333 !important; }
+            .text-orange-400 { color: #333 !important; }
+            canvas { display: none !important; }
+            h1, h2 { color: black !important; }
+            .badge-pending, .badge-processing, .badge-shipped, .badge-delivered, .badge-cancelled {
+                background: white !important; border: 1px solid black !important; color: black !important;
+            }
+            @page {
+                margin: 0.5cm;
+                size: A4;
+            }
+        }
     </style>
     @endpush
 
@@ -95,32 +138,7 @@
                 </div>
             </div>
 
-            <!-- ── FILTER ── -->
-            <form method="GET" action="{{ route('admin.dashboard') }}" class="card-dark p-5 mb-8 flex flex-wrap items-center gap-4">
-                <div class="flex items-center space-x-2">
-                    <svg class="w-5 h-5 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                    </svg>
-                    <span class="text-gray-400 text-sm font-medium">Filter Periode:</span>
-                </div>
-                <select name="month" class="input-dark px-4 py-2 rounded-xl text-sm">
-                    @php
-                        $fullMonthNames = ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'];
-                    @endphp
-                    @foreach($fullMonthNames as $i => $mn)
-                    <option value="{{ $i+1 }}" {{ $month == $i+1 ? 'selected' : '' }}>{{ $mn }}</option>
-                    @endforeach
-                </select>
-                <select name="year" class="input-dark px-4 py-2 rounded-xl text-sm">
-                    @foreach($years as $y)
-                    <option value="{{ $y }}" {{ $year == $y ? 'selected' : '' }}>{{ $y }}</option>
-                    @endforeach
-                </select>
-                <button type="submit" class="btn-orange px-6 py-2 rounded-xl text-sm font-semibold">Tampilkan</button>
-                <span class="text-gray-600 text-xs ml-auto">
-                    Data: {{ $fullMonthNames[$month-1] }} {{ $year }}
-                </span>
-            </form>
+
 
             <div class="card-dark p-6 mb-8">
                 <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
@@ -171,7 +189,12 @@
                 <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
                     <div>
                         <h2 class="text-lg font-bold text-white">Rekap Penjualan Harian</h2>
-                        <p class="text-gray-500 text-sm">Tanggal 1 – {{ $daysInMonth }}, {{ $fullMonthNames[$month-1] }} {{ $year }}</p>
+                        <p class="text-gray-500 text-sm">
+                            Periode {{ $fullMonthNames[$fromMonth-1] }} {{ $fromYear }}
+                            @if($fromMonth != $toMonth || $fromYear != $toYear)
+                                sampai {{ $fullMonthNames[$toMonth-1] }} {{ $toYear }}
+                            @endif
+                        </p>
                     </div>
                     <div class="flex items-center space-x-4 text-xs">
                         <span class="flex items-center space-x-2">
@@ -194,7 +217,7 @@
                 <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
                     <div>
                         <h2 class="text-lg font-bold text-white">Rekap Penjualan Bulanan</h2>
-                        <p class="text-gray-500 text-sm">Januari – Desember {{ $year }}</p>
+                        <p class="text-gray-500 text-sm">Januari – Desember {{ $fromYear }}</p>
                     </div>
                     <span class="flex items-center space-x-2 text-xs">
                         <span class="w-4 h-3 rounded inline-block" style="background:#f97316"></span>
@@ -256,41 +279,48 @@
                         <a href="{{ route('orders.index') }}" class="text-orange-400 hover:text-orange-300 text-xs font-medium transition-colors">Lihat Semua →</a>
                     </div>
                     <div class="overflow-x-auto">
-                        <table class="w-full table-dark">
+                        <table class="w-full table-dark" style="table-layout: fixed;">
                             <thead>
-                                <tr>
-                                    <th class="px-4 py-3 text-left">Pesanan</th>
-                                    <th class="px-4 py-3 text-left">User</th>
-                                    <th class="px-4 py-3 text-left">Total</th>
-                                    <th class="px-4 py-3 text-left">Status</th>
+                                <tr class="border-b border-gray-700">
+                                    <th class="px-4 py-3 text-left" style="width: 100px;">No. Pesanan</th>
+                                    <th class="px-4 py-3 text-left" style="width: 120px;">User</th>
+                                    <th class="px-4 py-3 text-left" style="width: 100px;">Tanggal</th>
+                                    <th class="px-4 py-3 text-right" style="width: 120px;">Total</th>
+                                    <th class="px-4 py-3 text-center" style="width: 90px;">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($recentOrders as $order)
-                                <tr>
+                                @forelse($recentOrders as $order)
+                                <tr class="border-b border-gray-800 hover:bg-[#0d1722]/50 transition">
                                     <td class="px-4 py-3">
                                         <p class="text-orange-400 text-xs font-semibold">#{{ $order->order_number }}</p>
-                                        <p class="text-gray-600 text-xs">{{ $order->created_at->format('d M Y') }}</p>
                                     </td>
-                                    <td class="px-4 py-3 text-gray-300 text-xs">{{ $order->user->name ?? '-' }}</td>
-                                    <td class="px-4 py-3 text-white text-xs font-semibold">
+                                    <td class="px-4 py-3 text-gray-300 text-xs truncate">{{ $order->user->name ?? '-' }}</td>
+                                    <td class="px-4 py-3 text-gray-400 text-xs">{{ $order->created_at->format('d M Y') }}</td>
+                                    <td class="px-4 py-3 text-white text-xs font-semibold text-right">
                                         Rp {{ number_format($order->total, 0, ',', '.') }}
                                     </td>
-                                    <td class="px-4 py-3">
+                                    <td class="px-4 py-3 text-center">
                                         @if($order->status === 'pending')
-                                            <span class="px-2 py-1 rounded-full text-xs font-semibold badge-pending">Pending</span>
+                                            <span class="px-2 py-1 rounded-full text-xs font-semibold badge-pending inline-block">Pending</span>
                                         @elseif($order->status === 'processing')
-                                            <span class="px-2 py-1 rounded-full text-xs font-semibold badge-processing">Proses</span>
+                                            <span class="px-2 py-1 rounded-full text-xs font-semibold badge-processing inline-block">Proses</span>
                                         @elseif($order->status === 'shipped')
-                                            <span class="px-2 py-1 rounded-full text-xs font-semibold badge-shipped">Kirim</span>
+                                            <span class="px-2 py-1 rounded-full text-xs font-semibold badge-shipped inline-block">Kirim</span>
                                         @elseif($order->status === 'delivered')
-                                            <span class="px-2 py-1 rounded-full text-xs font-semibold badge-delivered">Selesai</span>
+                                            <span class="px-2 py-1 rounded-full text-xs font-semibold badge-delivered inline-block">Selesai</span>
                                         @else
-                                            <span class="px-2 py-1 rounded-full text-xs font-semibold badge-cancelled">Batal</span>
+                                            <span class="px-2 py-1 rounded-full text-xs font-semibold badge-cancelled inline-block">Batal</span>
                                         @endif
                                     </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                <tr>
+                                    <td colspan="5" class="px-4 py-8 text-center text-gray-500 text-sm">
+                                        Tidak ada pesanan untuk periode dan produk yang dipilih
+                                    </td>
+                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

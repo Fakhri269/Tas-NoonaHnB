@@ -213,7 +213,7 @@
                         </div>
                         <div>
                             <p class="text-white text-xs font-semibold">Gratis Ongkir</p>
-                            <p class="text-gray-400 text-xs">Min. Rp 500.000</p>
+                            <p class="text-gray-400 text-xs">Min. Rp 200.000</p>
                         </div>
                     </div>
                 </div>
@@ -260,7 +260,7 @@
                 </div>
                 <div>
                     <h3 class="font-semibold text-white mb-1">Gratis Ongkir</h3>
-                    <p class="text-gray-500 text-sm">Pembelian min. Rp 500.000</p>
+                    <p class="text-gray-500 text-sm">Pembelian min. Rp 200.000</p>
                 </div>
             </div>
             <div class="flex items-center space-x-4 p-6 rounded-2xl" style="background:rgba(249,115,22,0.05); border:1px solid rgba(249,115,22,0.1)">

@@ -26,7 +26,9 @@
                                 {{ $user->email }}
                             </td>
                             <td class="px-6 py-4">
-                                @if($user->role === 'admin')
+                                @if($user->role === 'owner')
+                                    <span class="px-3 py-1 rounded-full text-xs font-bold bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 uppercase">Owner</span>
+                                @elseif($user->role === 'admin')
                                     <span class="px-3 py-1 rounded-full text-xs font-bold bg-orange-500/20 text-orange-400 border border-orange-500/30 uppercase">Admin</span>
                                 @else
                                     <span class="px-3 py-1 rounded-full text-xs font-semibold bg-gray-700 text-gray-300 uppercase">Pelanggan</span>

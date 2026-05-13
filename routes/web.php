@@ -5,6 +5,11 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Owner\OwnerDashboardController;
+use App\Http\Controllers\Owner\OwnerUserController;
+use App\Http\Controllers\Owner\OwnerProductController;
+use App\Http\Controllers\Owner\OwnerReportController;
+use App\Http\Controllers\Owner\OwnerActivityController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,8 +46,13 @@ Route::middleware('auth')->group(function () {
 
 // Dashboard
 Route::get('/dashboard', function () {
-    if (Auth::check() && Auth::user() && Auth::user()->role === 'admin') {
-        return redirect()->route('admin.dashboard');
+    if (Auth::check() && Auth::user()) {
+        if (Auth::user()->role === 'owner') {
+            return redirect()->route('owner.dashboard');
+        }
+        if (Auth::user()->role === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
     }
     return redirect()->route('orders.index');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -72,6 +82,27 @@ Route::prefix('admin')->name('admin.')->middleware(['auth'])->group(function () 
     Route::get('/reports', [App\Http\Controllers\Admin\ReportController::class, 'index'])->name('reports.index');
     Route::get('/reports/pdf', [App\Http\Controllers\Admin\ReportController::class, 'printPdf'])->name('reports.pdf');
     Route::get('/reports/excel', [App\Http\Controllers\Admin\ReportController::class, 'printExcel'])->name('reports.excel');
+});
+
+// ── OWNER ROUTES ──────────────────────────────────────────────
+Route::middleware(['auth', 'owner'])->prefix('owner')->name('owner.')->group(function () {
+    // Dashboard
+    Route::get('/dashboard', [OwnerDashboardController::class, 'index'])->name('dashboard');
+
+    // Manajemen User
+    Route::get('/users', [OwnerUserController::class, 'index'])->name('users.index');
+    Route::patch('/users/{user}/role', [OwnerUserController::class, 'updateRole'])->name('users.updateRole');
+    Route::delete('/users/{user}', [OwnerUserController::class, 'destroy'])->name('users.destroy');
+
+    // Manajemen Produk
+    Route::resource('products', OwnerProductController::class)->except('show');
+
+    // Laporan
+    Route::get('/reports', [OwnerReportController::class, 'index'])->name('reports.index');
+    Route::get('/reports/pdf', [OwnerReportController::class, 'exportPdf'])->name('reports.pdf');
+
+    // Aktivitas
+    Route::get('/activities', [OwnerActivityController::class, 'index'])->name('activities.index');
 });
 
 // Profile Routes

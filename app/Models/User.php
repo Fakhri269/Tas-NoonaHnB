@@ -30,6 +30,11 @@ class User extends Authenticatable
         return $this->role === 'admin';
     }
 
+    public function isOwner(): bool
+    {
+        return $this->role === 'owner';
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *

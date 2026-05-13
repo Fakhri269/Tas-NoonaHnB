@@ -316,189 +316,179 @@
         </div>
     </section>
 
-    <!-- Hidden Receipt for Printing -->
-    <div id="receipt" style="display: none;">
-        <div style="width: 80mm; font-family: 'Courier New', monospace; padding: 10px;">
-            <!-- Header -->
-            <div style="text-align: center; border-bottom: 2px dashed #000; padding-bottom: 10px; margin-bottom: 10px;">
-                <h2 style="margin: 0; font-size: 20px; font-weight: bold;">TAS NOONAHNB</h2>
-                <p style="margin: 5px 0; font-size: 12px;">Toko Tas Premium Terpercaya</p>
-                <p style="margin: 0; font-size: 11px;">Jl. Contoh No. 123, Jakarta</p>
-                <p style="margin: 0; font-size: 11px;">Telp: 0812-3456-7890</p>
-            </div>
-
-            <!-- Order Info -->
-            <div style="border-bottom: 1px dashed #000; padding-bottom: 10px; margin-bottom: 10px;">
-                <table style="width: 100%; font-size: 11px;">
-                    <tr>
-                        <td style="width: 40%;">No. Pesanan</td>
-                        <td style="width: 5%;">:</td>
-                        <td style="width: 55%;">{{ $order->order_number }}</td>
-                    </tr>
-                    <tr>
-                        <td>Tanggal</td>
-                        <td>:</td>
-                        <td>{{ $order->created_at->format('d/m/Y H:i') }}</td>
-                    </tr>
-                    <tr>
-                        <td>Kasir</td>
-                        <td>:</td>
-                        <td>{{ $order->user->name }}</td>
-                    </tr>
-                    <tr>
-                        <td>Pembayaran</td>
-                        <td>:</td>
-                        <td>{{ $order->payment_method }}</td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- Items -->
-            <div style="border-bottom: 1px dashed #000; padding-bottom: 10px; margin-bottom: 10px;">
-                <table style="width: 100%; font-size: 11px;">
-                    <thead>
-                        <tr>
-                            <th style="text-align: left; padding-bottom: 5px;">Item</th>
-                            <th style="text-align: center; padding-bottom: 5px;">Qty</th>
-                            <th style="text-align: right; padding-bottom: 5px;">Harga</th>
-                            <th style="text-align: right; padding-bottom: 5px;">Total</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($order->items as $item)
-                        <tr>
-                            <td style="padding: 3px 0;">{{ $item->product_name }}</td>
-                            <td style="text-align: center; padding: 3px 0;">{{ $item->quantity }}</td>
-                            <td style="text-align: right; padding: 3px 0;">{{ number_format($item->price, 0, ',', '.') }}</td>
-                            <td style="text-align: right; padding: 3px 0;">{{ number_format($item->subtotal, 0, ',', '.') }}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-
-            <!-- Summary -->
-            <div style="border-bottom: 2px dashed #000; padding-bottom: 10px; margin-bottom: 10px;">
-                <table style="width: 100%; font-size: 11px;">
-                    <tr>
-                        <td style="text-align: right; padding: 2px 0;">Subtotal:</td>
-                        <td style="text-align: right; padding: 2px 0; width: 35%;">Rp {{ number_format($order->subtotal, 0, ',', '.') }}</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: right; padding: 2px 0;">Ongkir:</td>
-                        <td style="text-align: right; padding: 2px 0;">
-                            @if($order->shipping_cost == 0)
-                                GRATIS
-                            @else
-                                Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}
-                            @endif
-                        </td>
-                    </tr>
-                    @if($order->discount > 0)
-                    <tr>
-                        <td style="text-align: right; padding: 2px 0;">Diskon:</td>
-                        <td style="text-align: right; padding: 2px 0;">- Rp {{ number_format($order->discount, 0, ',', '.') }}</td>
-                    </tr>
-                    @endif
-                    <tr style="font-weight: bold; font-size: 13px;">
-                        <td style="text-align: right; padding-top: 5px; border-top: 1px solid #000;">TOTAL:</td>
-                        <td style="text-align: right; padding-top: 5px; border-top: 1px solid #000;">Rp {{ number_format($order->total, 0, ',', '.') }}</td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- Shipping Info -->
-            <div style="border-bottom: 1px dashed #000; padding-bottom: 10px; margin-bottom: 10px;">
-                <p style="margin: 0 0 5px 0; font-size: 11px; font-weight: bold;">INFORMASI PENGIRIMAN:</p>
-                <table style="width: 100%; font-size: 10px;">
-                    <tr>
-                        <td style="width: 30%;">Nama</td>
-                        <td style="width: 5%;">:</td>
-                        <td style="width: 65%;">{{ $order->shipping_name }}</td>
-                    </tr>
-                    <tr>
-                        <td>Telepon</td>
-                        <td>:</td>
-                        <td>{{ $order->shipping_phone }}</td>
-                    </tr>
-                    <tr>
-                        <td style="vertical-align: top;">Alamat</td>
-                        <td style="vertical-align: top;">:</td>
-                        <td>{{ $order->shipping_address }}, {{ $order->shipping_city }}, {{ $order->shipping_province }} {{ $order->shipping_postal_code }}</td>
-                    </tr>
-                </table>
-            </div>
-
-            <!-- Footer -->
-            <div style="text-align: center; font-size: 11px;">
-                <p style="margin: 5px 0;">Terima kasih atas pembelian Anda!</p>
-                <p style="margin: 5px 0;">Barang yang sudah dibeli tidak dapat dikembalikan</p>
-                <p style="margin: 10px 0 5px 0; font-weight: bold;">www.tasnoonahnb.com</p>
-                <p style="margin: 5px 0; font-size: 10px;" id="receipt-print-time">{{ now()->format('d/m/Y H:i:s') }} WIB</p>
-            </div>
-        </div>
-    </div>
-
     @push('scripts')
     <script>
         function printReceipt() {
-            // Update the receipt print time to current local time
-            var now = new Date();
-            var timeStr = ("0" + now.getDate()).slice(-2) + "/" + 
-                          ("0" + (now.getMonth() + 1)).slice(-2) + "/" + 
-                          now.getFullYear() + " " + 
-                          ("0" + now.getHours()).slice(-2) + ":" + 
-                          ("0" + now.getMinutes()).slice(-2) + ":" + 
-                          ("0" + now.getSeconds()).slice(-2);
-            document.getElementById('receipt-print-time').innerText = timeStr + ' WIB';
+            var now    = new Date();
+            var days   = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+            var months = ['Januari','Februari','Maret','April','Mei','Juni',
+                          'Juli','Agustus','September','Oktober','November','Desember'];
 
-            // Get the receipt content
-            var receiptContent = document.getElementById('receipt').innerHTML;
-            
-            // Create a new window for printing
-            var printWindow = window.open('', '_blank', 'width=800,height=600');
-            
-            // Write the content to the new window
-            printWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>Struk Pembayaran - {{ $order->order_number }}</title>
-                    <style>
-                        @media print {
-                            body {
-                                margin: 0;
-                                padding: 0;
-                            }
-                            @page {
-                                size: 80mm auto;
-                                margin: 0;
-                            }
-                        }
-                        body {
-                            font-family: 'Courier New', monospace;
-                            margin: 0;
-                            padding: 0;
-                        }
-                    </style>
-                </head>
-                <body>
-                    ${receiptContent}
-                </body>
-                </html>
-            `);
-            
-            // Close the document and trigger print
-            printWindow.document.close();
-            
-            // Wait for content to load then print
-            printWindow.onload = function() {
-                printWindow.focus();
-                printWindow.print();
-                // Close the window after printing
-                setTimeout(function() {
-                    printWindow.close();
-                }, 250);
+            var dayName   = days[now.getDay()];
+            var dateStr   = ("0"+now.getDate()).slice(-2) + " " + months[now.getMonth()] + " " + now.getFullYear();
+            var timeStr   = ("0"+now.getHours()).slice(-2) + ":" + ("0"+now.getMinutes()).slice(-2) + ":" + ("0"+now.getSeconds()).slice(-2);
+            var printedAt = dayName + ", " + dateStr + "  " + timeStr + " WIB";
+
+            var html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Struk - {{ $order->order_number }}</title>
+<style>
+  @page { size: 80mm auto; margin: 4mm; }
+  @media print { body { margin:0; } }
+  * { box-sizing: border-box; }
+  body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 11px;
+    color: #000;
+    width: 72mm;
+    margin: 0 auto;
+    padding: 4px;
+    line-height: 1.6;
+  }
+  .center { text-align: center; }
+  .right  { text-align: right; }
+  .bold   { font-weight: bold; }
+  .big    { font-size: 16px; font-weight: bold; letter-spacing: 2px; margin: 4px 0; }
+  .small  { font-size: 10px; }
+  hr.dash { border: none; border-top: 1px dashed #000; margin: 7px 0; }
+  hr.solid{ border: none; border-top: 2px solid #000; margin: 7px 0; }
+  table   { width: 100%; border-collapse: collapse; }
+  td, th  { padding: 2px 1px; vertical-align: top; }
+  /* Info rows */
+  .lbl  { width: 36%; font-size: 11px; }
+  .sep  { width: 4%;  font-size: 11px; }
+  .val  { width: 60%; font-size: 11px; }
+  /* Item table */
+  .i-name  { width: 40%; font-size: 10px; }
+  .i-qty   { width: 8%;  font-size: 10px; text-align: center; }
+  .i-price { width: 24%; font-size: 10px; text-align: right; }
+  .i-sub   { width: 28%; font-size: 10px; text-align: right; }
+  /* Summary */
+  .s-lbl { width: 58%; text-align: right; padding-right: 4px; font-size: 11px; }
+  .s-val { width: 42%; text-align: right; font-size: 11px; }
+  .total-lbl { font-size: 13px; font-weight: bold; text-align: right; padding-right: 4px; padding-top: 5px; }
+  .total-val { font-size: 13px; font-weight: bold; text-align: right; padding-top: 5px; }
+  .section-title { font-weight: bold; font-size: 11px; margin: 5px 0 3px 0; }
+  .footer-note { font-size: 10px; margin: 2px 0; color: #222; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="center">
+  <p class="big">TASBAGUS</p>
+  <p style="margin:1px 0;font-size:11px;">Toko Tas Premium Terpercaya</p>
+  <p style="margin:1px 0;font-size:10px;">Jl. Raya Tas No. 123, Jakarta Selatan</p>
+  <p style="margin:1px 0;font-size:10px;">DKI Jakarta 12345</p>
+  <p style="margin:1px 0;font-size:10px;">Telp/WA: 0812-3456-7890</p>
+</div>
+
+<hr class="solid">
+
+<!-- INFO PESANAN -->
+<table>
+  <tr><td class="lbl">No. Pesanan</td><td class="sep">:</td><td class="val bold">{{ $order->order_number }}</td></tr>
+  <tr><td class="lbl">Tgl Pesan</td><td class="sep">:</td><td class="val">{{ $order->created_at->locale('id')->isoFormat('DD MMM YYYY, HH:mm') }} WIB</td></tr>
+  <tr><td class="lbl">Tgl Cetak</td><td class="sep">:</td><td class="val" id="pt">-</td></tr>
+  <tr><td class="lbl">Pelanggan</td><td class="sep">:</td><td class="val">{{ $order->user->name }}</td></tr>
+  <tr><td class="lbl">Pembayaran</td><td class="sep">:</td><td class="val">{{ $order->payment_method }}</td></tr>
+  <tr><td class="lbl">Status</td><td class="sep">:</td><td class="val bold">{{ $order->payment_status === 'paid' ? 'LUNAS' : 'BELUM BAYAR' }}</td></tr>
+</table>
+
+<hr class="dash">
+
+<!-- DETAIL PRODUK -->
+<p class="section-title">DETAIL PRODUK</p>
+<table>
+  <thead>
+    <tr>
+      <th class="i-name" style="text-align:left;border-bottom:1px solid #000;padding-bottom:3px;">Produk</th>
+      <th class="i-qty"  style="border-bottom:1px solid #000;padding-bottom:3px;">Qty</th>
+      <th class="i-price"style="border-bottom:1px solid #000;padding-bottom:3px;">Harga</th>
+      <th class="i-sub"  style="border-bottom:1px solid #000;padding-bottom:3px;">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach($order->items as $item)
+    <tr>
+      <td class="i-name" style="padding-right:2px;">{{ $item->product_name }}</td>
+      <td class="i-qty">{{ $item->quantity }}</td>
+      <td class="i-price">{{ number_format($item->price, 0, ',', '.') }}</td>
+      <td class="i-sub">{{ number_format($item->subtotal, 0, ',', '.') }}</td>
+    </tr>
+    @endforeach
+  </tbody>
+</table>
+
+<hr class="dash">
+
+<!-- RINGKASAN HARGA -->
+<table>
+  <tr><td class="s-lbl">Subtotal</td><td class="s-val">Rp {{ number_format($order->subtotal, 0, ',', '.') }}</td></tr>
+  <tr>
+    <td class="s-lbl">Ongkos Kirim</td>
+    <td class="s-val">@if($order->shipping_cost == 0)GRATIS@else Rp {{ number_format($order->shipping_cost, 0, ',', '.') }}@endif</td>
+  </tr>
+  @if($order->discount > 0)
+  <tr><td class="s-lbl">Diskon</td><td class="s-val">- Rp {{ number_format($order->discount, 0, ',', '.') }}</td></tr>
+  @endif
+</table>
+
+<hr class="solid">
+
+<table>
+  <tr>
+    <td class="total-lbl">TOTAL BAYAR</td>
+    <td class="total-val">Rp {{ number_format($order->total, 0, ',', '.') }}</td>
+  </tr>
+</table>
+
+<hr class="dash">
+
+<!-- ALAMAT PENGIRIMAN -->
+<p class="section-title">ALAMAT PENGIRIMAN</p>
+<table>
+  <tr><td class="lbl">Penerima</td><td class="sep">:</td><td class="val">{{ $order->shipping_name }}</td></tr>
+  <tr><td class="lbl">Telepon</td><td class="sep">:</td><td class="val">{{ $order->shipping_phone }}</td></tr>
+  <tr><td class="lbl" style="vertical-align:top">Alamat</td><td class="sep" style="vertical-align:top">:</td><td class="val">{{ $order->shipping_address }}</td></tr>
+  <tr><td class="lbl">Kota</td><td class="sep">:</td><td class="val">{{ $order->shipping_city }}</td></tr>
+  <tr><td class="lbl">Provinsi</td><td class="sep">:</td><td class="val">{{ $order->shipping_province }}</td></tr>
+  <tr><td class="lbl">Kode Pos</td><td class="sep">:</td><td class="val">{{ $order->shipping_postal_code }}</td></tr>
+  @if($order->notes)
+  <tr><td class="lbl" style="vertical-align:top">Catatan</td><td class="sep" style="vertical-align:top">:</td><td class="val">{{ $order->notes }}</td></tr>
+  @endif
+</table>
+
+<hr class="solid">
+
+<!-- FOOTER -->
+<div class="center">
+  <p style="font-size:12px;font-weight:bold;margin:4px 0;">Terima kasih telah berbelanja!</p>
+  <p class="footer-note">Simpan struk ini sebagai bukti pembelian.</p>
+  <p class="footer-note">Barang yang sudah dibeli tidak dapat dikembalikan.</p>
+  <p class="footer-note">Hubungi kami: 0812-3456-7890 (WhatsApp)</p>
+  <p style="margin:6px 0 2px 0;font-size:10px;">- - - - - - - - - - - - - - - - - - - -</p>
+  <p style="font-size:10px;font-weight:bold;margin:2px 0;">www.tasbagus.com</p>
+  <p class="footer-note" id="ft">Dicetak: -</p>
+</div>
+
+<script>
+  document.getElementById('pt').innerText = '${printedAt}';
+  document.getElementById('ft').innerText = 'Dicetak: ${printedAt}';
+<\/script>
+</body>
+</html>`;
+
+            var pw = window.open('', '_blank', 'width=420,height=750');
+            pw.document.open();
+            pw.document.write(html);
+            pw.document.close();
+            pw.onload = function() {
+                pw.focus();
+                pw.print();
+                setTimeout(function() { pw.close(); }, 600);
             };
         }
     </script>
