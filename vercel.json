@@ -4,7 +4,7 @@
     "builds": [
         {
             "src": "api/index.php",
-            "use": "vercel-community/php"
+            "use": "vercel-community/php@0.9.0"
         },
         {
             "src": "public/**",
