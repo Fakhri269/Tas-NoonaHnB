@@ -9,12 +9,21 @@ return new class extends Migration
 {
     public function up(): void
     {
-        // Ubah enum role: tambahkan 'owner'
-        DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('user', 'admin', 'owner') DEFAULT 'user'");
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
+        });
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('role', ['user', 'admin', 'owner'])->default('user')->after('email');
+        });
     }
 
     public function down(): void
     {
-        DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('user', 'admin') DEFAULT 'user'");
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn('role');
+        });
+        Schema::table('users', function (Blueprint $table) {
+            $table->enum('role', ['user', 'admin'])->default('user')->after('email');
+        });
     }
 };

@@ -26,12 +26,12 @@ return new class extends Migration
             }
         }
 
-        // Check if unique index already exists using raw query
-        $indexes = DB::select("SHOW INDEX FROM products WHERE Key_name = 'products_slug_unique'");
-        if (empty($indexes)) {
+        try {
             Schema::table('products', function (Blueprint $table) {
                 $table->unique('slug', 'products_slug_unique');
             });
+        } catch (\Exception $e) {
+            // Index might already exist
         }
     }
 
